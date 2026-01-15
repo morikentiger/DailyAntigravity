@@ -15,4 +15,4 @@ Space Invaders: 覚醒。
 - スクリーンショット：media/polish_preview.png
 - 備考：Activity 3 完。究極のアーケード体験へ。
 
-OK_TO_POST: no
+OK_TO_POST: yes

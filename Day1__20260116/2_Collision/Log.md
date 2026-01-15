@@ -15,4 +15,4 @@ Space Invaders: 生命の火花。
 - スクリーンショット：media/score_display.png
 - 備考：Activity 2 完。
 
-OK_TO_POST: yes
+OK_TO_POST: no
