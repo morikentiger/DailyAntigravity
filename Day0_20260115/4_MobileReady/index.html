@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DailyAG Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <aside>
+        <div class="logo">DailyAG</div>
+        <nav class="nav-group">
+            <div class="nav-item active" data-view="calendar">Dashboard</div>
+            <div class="nav-item" data-view="logs">Recent Logs</div>
+            <div class="nav-item" data-view="settings">Settings</div>
+        </nav>
+    </aside>
+
+    <main>
+        <header>
+            <h1>Observation Lab</h1>
+            <div class="view-controls">
+                <button class="view-btn" data-mode="month">Month</button>
+                <button class="view-btn active" data-mode="week">Week</button>
+                <button class="view-btn" data-mode="3day">3 Days</button>
+                <button class="view-btn" data-mode="1day">1 Day</button>
+            </div>
+        </header>
+
+        <section id="viz-container" class="content-grid">
+            <!-- Dynamic Content -->
+        </section>
+
+        <section id="detail-view" class="detail-view" style="display: none;">
+            <div class="detail-header">
+                <h2 id="detail-title">Day 0-1</h2>
+                <p id="detail-date" style="color: var(--text-secondary);">2026-01-15</p>
+            </div>
+            <div class="detail-content">
+                <div id="detail-post" style="margin: 1.5rem 0; font-size: 1.1rem;"></div>
+                <div class="preview-media">
+                    <div class="media-item">Video Placeholder</div>
+                    <div class="media-item">Screenshot Placeholder</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="lightbox" class="lightbox">
+        <span class="close-lightbox">&times;</span>
+        <div class="lightbox-content"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

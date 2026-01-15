@@ -1,0 +1,7 @@
+node_modules/
+.DS_Store
+sync-server.js
+# .gemini and temporary brain data are usually not pushed to public repos
+.gemini/
+brain/
+*.log

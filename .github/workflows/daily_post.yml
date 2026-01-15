@@ -1,0 +1,100 @@
+name: DailyAG Auto Post
+
+on:
+  push:
+    paths:
+      - 'Day*/**/*.md'
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'skip-post')"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install atproto python-frontmatter
+
+      - name: Parse and Post
+        env:
+          BSKY_IDENTIFIER: ${{ secrets.BSKY_IDENTIFIER }}
+          BSKY_PASSWORD: ${{ secrets.BSKY_PASSWORD }}
+        run: |
+          import os
+          import re
+          import frontmatter
+          from atproto import Client, models
+
+          def post_to_bsky():
+              # Find all .md files (Log.md) in the deep structure
+              files = []
+              for root, _, f_names in os.walk('.'):
+                  # Filter for folders starting with 'Day' and then sub-folders
+                  if 'Day' in root:
+                      for f in f_names:
+                          if f.endswith('.md'):
+                              files.append(os.path.join(root, f))
+
+              if not files:
+                  return
+
+              latest_file = max(files, key=os.path.getmtime)
+              print(f"Processing {latest_file}")
+
+              with open(latest_file, 'r') as f:
+                  content = f.read()
+
+              # Check OK_TO_POST
+              if 'OK_TO_POST: yes' not in content:
+                  print("OK_TO_POST is not 'yes'. Skipping.")
+                  return
+
+              # Extract POST section
+              post_match = re.search(r'## POST\n(.*?)\n##', content, re.DOTALL)
+              if not post_match:
+                  print("POST section not found.")
+                  return
+
+              post_text = post_match.group(1).strip()
+
+              # Extract media from ARTIFACTS
+              # Note: media paths in Log.md are relative to the location of Log.md
+              image_match = re.search(r'- スクリーンショット：\s*(.*?)\n', content)
+              images = []
+              if image_match:
+                  img_paths = [path.strip() for path in image_match.group(1).split(',')]
+                  log_dir = os.path.dirname(latest_file)
+                  for img_path in img_paths:
+                      full_img_path = os.path.join(log_dir, img_path)
+                      if os.path.exists(full_img_path):
+                          images.append(full_img_path)
+
+              client = Client()
+              client.login(os.environ['BSKY_IDENTIFIER'], os.environ['BSKY_PASSWORD'])
+
+              # Upload images if any
+              embed = None
+              if images:
+                  blobs = []
+                  for img in images[:4]: # Bluesky limit
+                      with open(img, 'rb') as f:
+                          img_data = f.read()
+                          resp = client.upload_blob(img_data)
+                          blobs.append(models.AppBskyEmbedImages.Image(alt='DailyAG Artifact', image=resp.blob))
+
+                  embed = models.AppBskyEmbedImages.Main(images=blobs)
+
+              root_post = client.send_post(text=post_text, embed=embed)
+              print(f"Posted successfully: {root_post.uri}")
+
+          if __name__ == "__main__":
+              post_to_bsky()
