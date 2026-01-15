@@ -28,6 +28,20 @@ const dailyFolders = [
             video: 'media/collision_demo.gif',
             screenshot: 'media/score_display.png'
         }
+    },
+    {
+        id: 'Day1-3',
+        dir: '3_Polish',
+        logFile: './3_Polish/Log.md',
+        date: '2026-01-16',
+        topic: 'Visual & Audio Polish',
+        post: 'パーティクル、シェイク、そして咆哮。ゲームに魂が宿る瞬間。',
+        ok_to_post: true,
+        launch: 'game.html',
+        media: {
+            video: 'media/polish_demo.gif',
+            screenshot: 'media/polish_preview.png'
+        }
     }
 ];
 
