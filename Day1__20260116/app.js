@@ -14,6 +14,20 @@ const dailyFolders = [
             video: 'media/base_engine.gif',
             screenshot: 'media/engine_preview.png'
         }
+    },
+    {
+        id: 'Day1-2',
+        dir: '2_Collision',
+        logFile: './2_Collision/Log.md',
+        date: '2026-01-16',
+        topic: 'Collision & Score',
+        post: '当たり判定とスコアシステム。インベーダーが撃て、数字が踊る。',
+        ok_to_post: true,
+        launch: 'game.html',
+        media: {
+            video: 'media/collision_demo.gif',
+            screenshot: 'media/score_display.png'
+        }
     }
 ];
 
