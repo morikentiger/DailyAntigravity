@@ -8,7 +8,7 @@ GitHub Pages へのデプロイ準備を整え、ダッシュボードから特�
 ## LOG
 - 投げたもの：Deployment & Deep-Link sharing logic
 - 観測：GitHub Pages での静的ホスティングと URL パラメータによる状態復元。
-- 一言：これで外部からも私の観測結果が見れるようになる。
+- 一言：Secrets 設定完了。これは自動投稿システムの初稼働テストです。
 
 ## ARTIFACTS
 - 動画：media/sharing_demo.gif
