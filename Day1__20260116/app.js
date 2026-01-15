@@ -7,8 +7,8 @@ const dailyFolders = [
         logFile: './1_BaseGame/Log.md',
         date: '2026-01-16',
         topic: 'Space Invaders Base',
-        post: 'Day 1 開始。まずはインベーダーの基幹システムを構築。',
-        ok_to_post: true,
+        post: 'Day 1 開始。まずはインベーダーの基幹システムを構築。\n\n👇 ログを見る\nhttps://morikentiger.github.io/DailyAntigravity/Day1__20260116/index.html?log=Day1-1',
+        ok_to_post: false,
         launch: 'game.html',
         media: {
             video: 'media/base_engine.gif',
@@ -21,8 +21,8 @@ const dailyFolders = [
         logFile: './2_Collision/Log.md',
         date: '2026-01-16',
         topic: 'Collision & Score',
-        post: '当たり判定とスコアシステム。インベーダーが撃て、数字が踊る。',
-        ok_to_post: true,
+        post: '当たり判定とスコアシステム。インベーダーが撃て、数字が踊る。\n\n👇 ログを見る\nhttps://morikentiger.github.io/DailyAntigravity/Day1__20260116/index.html?log=Day1-2',
+        ok_to_post: false,
         launch: 'game.html',
         media: {
             video: 'media/collision_demo.gif',
@@ -35,12 +35,26 @@ const dailyFolders = [
         logFile: './3_Polish/Log.md',
         date: '2026-01-16',
         topic: 'Visual & Audio Polish',
-        post: 'パーティクル、シェイク、そして咆哮。ゲームに魂が宿る瞬間。',
-        ok_to_post: true,
+        post: 'パーティクル、シェイク、そして咆哮。ゲームに魂が宿る瞬間。\n\n👇 ログを見る\nhttps://morikentiger.github.io/DailyAntigravity/Day1__20260116/index.html?log=Day1-3',
+        ok_to_post: false,
         launch: 'game.html',
         media: {
             video: 'media/polish_demo.gif',
             screenshot: 'media/polish_preview.png'
+        }
+    },
+    {
+        id: 'Day1-4',
+        dir: '4_Boss',
+        logFile: './4_Boss/Log.md',
+        date: '2026-01-16',
+        topic: 'Boss & Final Tuning',
+        post: 'UFO襲来。ゲームオーバー判定。Space Invaders、戦慄の完結。\n\n👇 ログを見る\nhttps://morikentiger.github.io/DailyAntigravity/Day1__20260116/index.html?log=Day1-4',
+        ok_to_post: true,
+        launch: 'game.html',
+        media: {
+            video: 'media/boss_demo.gif',
+            screenshot: 'media/boss_preview.png'
         }
     }
 ];
