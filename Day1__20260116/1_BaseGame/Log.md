@@ -15,4 +15,4 @@ Day 1: Space Invaders 開発始動。
 - スクリーンショット：media/engine_preview.png
 - 備考：開発初期。
 
-OK_TO_POST: no
+OK_TO_POST: yes
