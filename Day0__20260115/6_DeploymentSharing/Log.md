@@ -15,4 +15,4 @@ GitHub Pages へのデプロイ準備を整え、ダッシュボードから特�
 - スクリーンショット：media/gh_pages_setup.png
 - 備考：Day 0 の最終マイルストーン。
 
-OK_TO_POST: yes
+OK_TO_POST: no
