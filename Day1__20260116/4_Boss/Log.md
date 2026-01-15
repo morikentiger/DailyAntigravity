@@ -16,7 +16,6 @@ https://morikentiger.github.io/DailyAntigravity/Day1__20260116/index.html?log=Da
 
 ## ARTIFACTS
 - 動画：media/boss_demo.gif
-- スクリーンショット：media/boss_preview.png
 - 備考：Day 1 メイン開発、完了。
 
-OK_TO_POST: no
+OK_TO_POST: yes
