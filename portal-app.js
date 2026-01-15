@@ -3,7 +3,7 @@ const days = [
         id: 'Day 0',
         title: 'Engine Initialization',
         date: '2026.01.15',
-        path: 'Day0_20260115/index.html',
+        path: 'Day0__20260115/index.html',
         activities: 6,
         theme: '#0088ff'
     },

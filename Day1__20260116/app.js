@@ -9,6 +9,7 @@ const dailyFolders = [
         topic: 'Space Invaders Base',
         post: 'Day 1 開始。まずはインベーダーの基幹システムを構築。',
         ok_to_post: true,
+        launch: 'game.html',
         media: {
             video: 'media/base_engine.gif',
             screenshot: 'media/engine_preview.png'
