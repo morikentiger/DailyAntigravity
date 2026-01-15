@@ -25,6 +25,7 @@ jobs:
           pip install atproto python-frontmatter
 
       - name: Parse and Post
+        shell: python
         env:
           BSKY_IDENTIFIER: ${{ secrets.BSKY_IDENTIFIER }}
           BSKY_PASSWORD: ${{ secrets.BSKY_PASSWORD }}
@@ -53,15 +54,18 @@ jobs:
               # Instead of just the latest by mtime, let's find the most recent one that says 'OK_TO_POST: yes'
               target_files = []
               for path in files:
-                  with open(path, 'r') as f:
-                      if 'OK_TO_POST: yes' in f.read():
-                          target_files.append(path)
+                  try:
+                      with open(path, 'r') as f:
+                          if 'OK_TO_POST: yes' in f.read():
+                              target_files.append(path)
+                  except:
+                      continue
 
               if not target_files:
                   print("No files marked with 'OK_TO_POST: yes' found.")
                   return
 
-              # Still use mtime among target files, or just pick the deepest one
+              # Still use mtime among target files
               latest_file = max(target_files, key=os.path.getmtime)
               print(f"Targeting: {latest_file}")
 
@@ -85,7 +89,7 @@ jobs:
               image_match = re.search(r'-\s*(?:スクリーンショット|Screenshot)：\s*(.*?)(?:\n|$)', content, re.IGNORECASE)
               images = []
               if image_match:
-                  img_paths = [path.strip() for path in image_match.group(1).split(',')]
+                  img_paths = [p.strip() for p in image_match.group(1).split(',')]
                   log_dir = os.path.dirname(latest_file)
                   for img_path in img_paths:
                       full_img_path = os.path.join(log_dir, img_path)
