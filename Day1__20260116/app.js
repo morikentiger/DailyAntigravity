@@ -244,7 +244,7 @@ async function togglePost(dayId, status) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                filePath: `Day0_20260115/${item.dir}/Log.md`,
+                filePath: `Day1__20260116/${item.dir}/Log.md`,
                 status: status
             })
         });
