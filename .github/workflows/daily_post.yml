@@ -86,10 +86,11 @@ jobs:
               print(f"Post text extracted: {post_text[:50]}...")
 
               # Extract media from ARTIFACTS
-              image_match = re.search(r'-\s*(?:スクリーンショット|Screenshot)：\s*(.*?)(?:\n|$)', content, re.IGNORECASE)
+              # Look for Screenshot, スクリーンショット, Video, or 動画
+              media_match = re.search(r'-\s*(?:スクリーンショット|Screenshot|動画|Video)：\s*(.*?)(?:\n|$)', content, re.IGNORECASE)
               images = []
-              if image_match:
-                  img_paths = [p.strip() for p in image_match.group(1).split(',')]
+              if media_match:
+                  media_paths = [p.strip() for p in media_match.group(1).split(',')]
                   log_dir = os.path.dirname(latest_file)
                   for img_path in img_paths:
                       full_img_path = os.path.join(log_dir, img_path)
