@@ -23,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install atproto
-          sudo apt-get update && sudo apt-get install -y ffmpeg webp
+          sudo apt-get update && sudo apt-get install -y ffmpeg imagemagick
 
       - name: Parse and Post
         shell: python
@@ -39,62 +39,53 @@ jobs:
 
           # Bluesky supported video formats
           BSKY_VIDEO_FORMATS = {'.mp4', '.webm', '.mov', '.mpeg'}
-          # Formats that need conversion
-          CONVERT_FORMATS = {'.webp', '.gif'}
           IMAGE_EXTENSIONS = {'.png', '.jpg', '.jpeg', '.bmp'}
 
           def is_bsky_video(filename):
               return os.path.splitext(filename)[1].lower() in BSKY_VIDEO_FORMATS
 
-          def needs_conversion(filename):
-              return os.path.splitext(filename)[1].lower() in CONVERT_FORMATS
-
           def is_image(filename):
               return os.path.splitext(filename)[1].lower() in IMAGE_EXTENSIONS
 
-          def convert_animated_webp_to_mp4(input_path):
-              """Convert animated WebP to MP4 via GIF intermediate"""
+          def convert_webp_to_mp4(input_path):
+              """Convert animated WebP to MP4 via GIF intermediate using ImageMagick + ffmpeg"""
               base_path = os.path.splitext(input_path)[0]
               gif_path = base_path + '_temp.gif'
               output_path = base_path + '_converted.mp4'
 
-              print(f"Converting animated WebP {input_path} to MP4...")
+              print(f"Converting animated WebP {input_path} to MP4 via GIF...")
 
               try:
-                  # Step 1: Convert WebP to GIF using webpmux and convert
-                  # First try direct gif2webp reverse (anim_dump)
+                  # Step 1: Convert WebP to GIF using ImageMagick
                   result = subprocess.run([
-                      'ffmpeg', '-y', '-f', 'gif', '-i', input_path,
+                      'convert', input_path, gif_path
+                  ], capture_output=True, text=True, timeout=120)
+
+                  if result.returncode != 0 or not os.path.exists(gif_path):
+                      print(f"WebP to GIF conversion failed: {result.stderr}")
+                      return None
+
+                  print(f"Created intermediate GIF: {gif_path} ({os.path.getsize(gif_path)} bytes)")
+
+                  # Step 2: Convert GIF to MP4 using ffmpeg
+                  result = subprocess.run([
+                      'ffmpeg', '-y', '-i', gif_path,
                       '-movflags', 'faststart',
                       '-pix_fmt', 'yuv420p',
                       '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2',
                       output_path
                   ], capture_output=True, text=True, timeout=120)
 
-                  if result.returncode == 0 and os.path.exists(output_path) and os.path.getsize(output_path) > 0:
-                      print(f"Direct conversion successful: {output_path}")
-                      return output_path
-
-                  # If that fails, try using img2webp in reverse via frames
-                  print("Direct conversion failed, trying alternative method...")
-
-                  # Try treating as image sequence
-                  result = subprocess.run([
-                      'ffmpeg', '-y',
-                      '-framerate', '10',
-                      '-pattern_type', 'glob', '-i', input_path,
-                      '-c:v', 'libx264',
-                      '-movflags', 'faststart',
-                      '-pix_fmt', 'yuv420p',
-                      output_path
-                  ], capture_output=True, text=True, timeout=120)
+                  # Clean up intermediate GIF
+                  if os.path.exists(gif_path):
+                      os.remove(gif_path)
 
                   if result.returncode == 0 and os.path.exists(output_path) and os.path.getsize(output_path) > 0:
-                      print(f"Alternative conversion successful: {output_path}")
+                      print(f"Conversion successful: {output_path} ({os.path.getsize(output_path)} bytes)")
                       return output_path
-
-                  print(f"All conversion methods failed: {result.stderr}")
-                  return None
+                  else:
+                      print(f"GIF to MP4 conversion failed: {result.stderr}")
+                      return None
 
               except Exception as e:
                   print(f"Conversion error: {e}")
@@ -195,7 +186,7 @@ jobs:
                       if os.path.exists(full_path):
                           ext = os.path.splitext(full_path)[1].lower()
                           if ext == '.webp':
-                              converted = convert_animated_webp_to_mp4(full_path)
+                              converted = convert_webp_to_mp4(full_path)
                               if converted:
                                   videos.append(converted)
                           elif ext == '.gif':
