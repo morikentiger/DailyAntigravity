@@ -14,8 +14,8 @@ https://morikentiger.github.io/DailyAntigravity/Day2__20260116/index.html?log=Da
 - 一言：雪合戦のデジタル版。寒い日にぴったり。
 
 ## ARTIFACTS
-- 動画：media/snowball_battle_demo.webp
+- 動画：media/snowball_battle_demo.mp4
 - スクリーンショット：media/preview.png
-- 備考：Day 2 最初のミニゲーム完成。[Updated: 2026-01-16 10:22]
+- 備考：Day 2 最初のミニゲーム完成。[Updated: 2026-01-16 15:11]
 
 OK_TO_POST: yes
