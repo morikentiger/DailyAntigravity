@@ -16,6 +16,6 @@ https://morikentiger.github.io/DailyAntigravity/Day1__20260116/index.html?log=Da
 
 ## ARTIFACTS
 - 動画：media/boss_demo.gif
-- 備考：Day 1 メイン開発、完了。（動画をシネマティック版に更新）
+- 備考：Day 1 メイン開発、完了。（動画を真のGIF形式に変換して再投稿）
 
 OK_TO_POST: yes
