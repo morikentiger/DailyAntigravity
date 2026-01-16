@@ -22,7 +22,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install atproto python-frontmatter
+          pip install atproto
+          sudo apt-get update && sudo apt-get install -y ffmpeg
 
       - name: Parse and Post
         shell: python
@@ -32,17 +33,46 @@ jobs:
         run: |
           import os
           import re
+          import subprocess
           from atproto import Client
 
-          # Media type definitions
-          VIDEO_EXTENSIONS = {'.mp4', '.webm', '.mov', '.webp', '.gif'}
+          # Bluesky supported video formats
+          BSKY_VIDEO_FORMATS = {'.mp4', '.webm', '.mov', '.mpeg'}
+          # Formats that need conversion
+          CONVERT_FORMATS = {'.webp', '.gif'}
           IMAGE_EXTENSIONS = {'.png', '.jpg', '.jpeg', '.bmp'}
 
-          def is_video(filename):
-              return os.path.splitext(filename)[1].lower() in VIDEO_EXTENSIONS
+          def is_bsky_video(filename):
+              return os.path.splitext(filename)[1].lower() in BSKY_VIDEO_FORMATS
+
+          def needs_conversion(filename):
+              return os.path.splitext(filename)[1].lower() in CONVERT_FORMATS
 
           def is_image(filename):
               return os.path.splitext(filename)[1].lower() in IMAGE_EXTENSIONS
+
+          def convert_to_mp4(input_path):
+              """Convert WebP/GIF to MP4 using ffmpeg"""
+              output_path = os.path.splitext(input_path)[0] + '_converted.mp4'
+              print(f"Converting {input_path} to {output_path}...")
+              try:
+                  # Use ffmpeg to convert
+                  result = subprocess.run([
+                      'ffmpeg', '-y', '-i', input_path,
+                      '-movflags', 'faststart',
+                      '-pix_fmt', 'yuv420p',
+                      '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2',
+                      output_path
+                  ], capture_output=True, text=True, timeout=120)
+                  if result.returncode == 0 and os.path.exists(output_path):
+                      print(f"Conversion successful: {output_path}")
+                      return output_path
+                  else:
+                      print(f"Conversion failed: {result.stderr}")
+                      return None
+              except Exception as e:
+                  print(f"Conversion error: {e}")
+                  return None
 
           def post_to_bsky():
               # Find all .md files (Log.md) in the structure
@@ -105,8 +135,14 @@ jobs:
                   for media_path in media_paths:
                       full_path = os.path.join(log_dir, media_path)
                       if os.path.exists(full_path):
-                          videos.append(full_path)
-                          print(f"Found video file: {full_path}")
+                          # Check if conversion is needed
+                          if needs_conversion(full_path):
+                              converted = convert_to_mp4(full_path)
+                              if converted:
+                                  videos.append(converted)
+                          elif is_bsky_video(full_path):
+                              videos.append(full_path)
+                          print(f"Processed video file: {full_path}")
 
               # Look for screenshots/images
               img_match = re.search(r'-\s*(?:スクリーンショット|Screenshot)：\s*(.*?)(?:\n|$)', content, re.IGNORECASE)
@@ -153,4 +189,3 @@ jobs:
 
           if __name__ == "__main__":
               post_to_bsky()
-
