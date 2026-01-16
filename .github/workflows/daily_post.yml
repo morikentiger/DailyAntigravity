@@ -32,8 +32,17 @@ jobs:
         run: |
           import os
           import re
-          import frontmatter
-          from atproto import Client, models
+          from atproto import Client
+
+          # Media type definitions
+          VIDEO_EXTENSIONS = {'.mp4', '.webm', '.mov', '.webp', '.gif'}
+          IMAGE_EXTENSIONS = {'.png', '.jpg', '.jpeg', '.bmp'}
+
+          def is_video(filename):
+              return os.path.splitext(filename)[1].lower() in VIDEO_EXTENSIONS
+
+          def is_image(filename):
+              return os.path.splitext(filename)[1].lower() in IMAGE_EXTENSIONS
 
           def post_to_bsky():
               # Find all .md files (Log.md) in the structure
@@ -48,10 +57,9 @@ jobs:
                   print("No .md files found.")
                   return
 
-              # In CI, mtime can be unreliable. Let's print all found files and their statuses.
               print(f"Found {len(files)} files: {files}")
 
-              # Instead of just the latest by mtime, let's find the most recent one that says 'OK_TO_POST: yes'
+              # Find files marked with 'OK_TO_POST: yes'
               target_files = []
               for path in files:
                   try:
@@ -65,17 +73,16 @@ jobs:
                   print("No files marked with 'OK_TO_POST: yes' found.")
                   return
 
-              # Still use mtime among target files
+              # Use mtime among target files
               latest_file = max(target_files, key=os.path.getmtime)
               print(f"Targeting: {latest_file}")
 
               with open(latest_file, 'r') as f:
                   content = f.read()
 
-              # Extract POST section with more robust regex
+              # Extract POST section
               post_match = re.search(r'##\s*POST\s*\n(.*?)\n##', content, re.DOTALL | re.IGNORECASE)
               if not post_match:
-                  # Fallback if it's the last section before EOF or something
                   post_match = re.search(r'##\s*POST\s*\n(.*?)$', content, re.DOTALL | re.IGNORECASE)
 
               if not post_match:
@@ -85,28 +92,51 @@ jobs:
               post_text = post_match.group(1).split('##')[0].strip()
               print(f"Post text extracted: {post_text[:50]}...")
 
-              # Extract media from ARTIFACTS
-              # Look for Screenshot, スクリーンショット, Video, or 動画
-              media_match = re.search(r'-\s*(?:スクリーンショット|Screenshot|動画|Video)：\s*(.*?)(?:\n|$)', content, re.IGNORECASE)
+              # Extract media from ARTIFACTS - check both video and screenshot
+              log_dir = os.path.dirname(latest_file)
+              videos = []
               images = []
-              if media_match:
-                  media_paths = [p.strip() for p in media_match.group(1).split(',')]
-                  print(f"Found media paths in log: {media_paths}")
-                  log_dir = os.path.dirname(latest_file)
+
+              # Look for video first
+              video_match = re.search(r'-\s*(?:動画|Video)：\s*(.*?)(?:\n|$)', content, re.IGNORECASE)
+              if video_match:
+                  media_paths = [p.strip() for p in video_match.group(1).split(',') if p.strip()]
+                  print(f"Found video paths in log: {media_paths}")
                   for media_path in media_paths:
-                      full_media_path = os.path.join(log_dir, media_path)
-                      if os.path.exists(full_media_path):
-                          print(f"Found media file: {full_media_path}")
-                          images.append(full_media_path)
-                      else:
-                          print(f"Media path not found: {full_media_path}")
+                      full_path = os.path.join(log_dir, media_path)
+                      if os.path.exists(full_path):
+                          videos.append(full_path)
+                          print(f"Found video file: {full_path}")
+
+              # Look for screenshots/images
+              img_match = re.search(r'-\s*(?:スクリーンショット|Screenshot)：\s*(.*?)(?:\n|$)', content, re.IGNORECASE)
+              if img_match:
+                  media_paths = [p.strip() for p in img_match.group(1).split(',') if p.strip()]
+                  print(f"Found image paths in log: {media_paths}")
+                  for media_path in media_paths:
+                      full_path = os.path.join(log_dir, media_path)
+                      if os.path.exists(full_path) and is_image(full_path):
+                          images.append(full_path)
+                          print(f"Found image file: {full_path}")
 
               print("Logging in to Bluesky...")
               client = Client()
               client.login(os.environ['BSKY_IDENTIFIER'], os.environ['BSKY_PASSWORD'])
 
-              embed = None
-              if images:
+              # Priority: Video > Images > Text only
+              if videos:
+                  video_path = videos[0]
+                  print(f"Uploading video: {video_path}")
+                  with open(video_path, 'rb') as f:
+                      video_data = f.read()
+                  root_post = client.send_video(
+                      text=post_text,
+                      video=video_data,
+                      video_alt='DailyAG Video Artifact'
+                  )
+                  print(f"Successfully posted VIDEO to Bluesky! URI: {root_post.uri}")
+              elif images:
+                  from atproto import models
                   blobs = []
                   for img in images[:4]:
                       with open(img, 'rb') as f:
@@ -115,9 +145,12 @@ jobs:
                           blobs.append(models.AppBskyEmbedImages.Image(alt='DailyAG Artifact', image=resp.blob))
                   embed = models.AppBskyEmbedImages.Main(images=blobs)
                   print(f"Uploaded {len(blobs)} images.")
-
-              root_post = client.send_post(text=post_text, embed=embed)
-              print(f"Successfully posted to Bluesky! URI: {root_post.uri}")
+                  root_post = client.send_post(text=post_text, embed=embed)
+                  print(f"Successfully posted IMAGES to Bluesky! URI: {root_post.uri}")
+              else:
+                  root_post = client.send_post(text=post_text)
+                  print(f"Successfully posted TEXT ONLY to Bluesky! URI: {root_post.uri}")
 
           if __name__ == "__main__":
               post_to_bsky()
+
