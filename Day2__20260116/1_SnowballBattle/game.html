@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>雪玉バトル - Snowball Battle</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="game-container">
+        <div class="ui-overlay">
+            <div class="score-display">
+                <div class="player-score">
+                    <span class="label">YOU</span>
+                    <span class="lives" id="player-lives">❤️❤️❤️</span>
+                </div>
+                <div class="timer" id="timer">60</div>
+                <div class="cpu-score">
+                    <span class="label">CPU</span>
+                    <span class="lives" id="cpu-lives">❤️❤️❤️</span>
+                </div>
+            </div>
+            <div class="snowball-size" id="snowball-indicator">
+                <span>雪玉サイズ: </span>
+                <div class="size-bar">
+                    <div class="size-fill" id="size-fill"></div>
+                </div>
+            </div>
+        </div>
+        <canvas id="gameCanvas"></canvas>
+        <div class="start-screen" id="start-screen">
+            <h1>⛄ 雪玉バトル ⛄</h1>
+            <p class="instructions">
+                🎮 操作方法<br>
+                移動: WASD または 矢印キー<br>
+                雪玉を転がす: スペース長押し<br>
+                発射: スペース離す
+            </p>
+            <button class="start-btn" id="start-btn">ゲームスタート</button>
+        </div>
+        <div class="result-screen hidden" id="result-screen">
+            <h1 id="result-text">勝利！</h1>
+            <p id="result-detail"></p>
+            <button class="start-btn" id="retry-btn">もう一度</button>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+
+</html>
