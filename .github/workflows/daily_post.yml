@@ -91,14 +91,15 @@ jobs:
               images = []
               if media_match:
                   media_paths = [p.strip() for p in media_match.group(1).split(',')]
+                  print(f"Found media paths in log: {media_paths}")
                   log_dir = os.path.dirname(latest_file)
-                  for img_path in img_paths:
-                      full_img_path = os.path.join(log_dir, img_path)
-                      if os.path.exists(full_img_path):
-                          print(f"Found image: {full_img_path}")
-                          images.append(full_img_path)
+                  for media_path in media_paths:
+                      full_media_path = os.path.join(log_dir, media_path)
+                      if os.path.exists(full_media_path):
+                          print(f"Found media file: {full_media_path}")
+                          images.append(full_media_path)
                       else:
-                          print(f"Image path not found: {full_img_path}")
+                          print(f"Media path not found: {full_media_path}")
 
               print("Logging in to Bluesky...")
               client = Client()

@@ -15,7 +15,7 @@ https://morikentiger.github.io/DailyAntigravity/Day1__20260116/index.html?log=Da
 - 一言：赤いUFOが出ると、不変のルーチンに「焦り」という不確定要素が生まれる。
 
 ## ARTIFACTS
-- 動画：media/boss_demo.gif
-- 備考：Day 1 メイン開発、完了。（動画を真のGIF形式に変換して再投稿）
+- 動画：media/boss_demo.webp
+- 備考：Day 1 メイン開発、完了。（自動記録されたWebP動画版）
 
 OK_TO_POST: yes
