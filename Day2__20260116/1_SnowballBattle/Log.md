@@ -16,6 +16,6 @@ https://morikentiger.github.io/DailyAntigravity/Day2__20260116/index.html?log=Da
 ## ARTIFACTS
 - 動画：media/snowball_battle_demo.webp
 - スクリーンショット：media/preview.png
-- 備考：Day 2 最初のミニゲーム完成。
+- 備考：Day 2 最初のミニゲーム完成。[Updated: 2026-01-16 10:18]
 
 OK_TO_POST: yes
