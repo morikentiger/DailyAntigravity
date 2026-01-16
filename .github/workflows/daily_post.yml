@@ -153,8 +153,29 @@ jobs:
                   print("No files marked with 'OK_TO_POST: yes' found.")
                   return
 
-              # Use mtime among target files
-              latest_file = max(target_files, key=os.path.getmtime)
+              # Find files changed in the latest commit using git
+              try:
+                  result = subprocess.run(
+                      ['git', 'diff', '--name-only', 'HEAD~1', 'HEAD'],
+                      capture_output=True, text=True
+                  )
+                  changed_files = [f'./{f}' for f in result.stdout.strip().split('\n') if f.endswith('.md')]
+                  print(f"Files changed in last commit: {changed_files}")
+
+                  # Prefer files that were just changed AND have OK_TO_POST: yes
+                  changed_and_ok = [f for f in target_files if any(f.endswith(c.lstrip('./')) or c.lstrip('./') in f for c in changed_files)]
+
+                  if changed_and_ok:
+                      latest_file = changed_and_ok[0]
+                      print(f"Using recently changed file: {latest_file}")
+                  else:
+                      # Fallback: use file path sorting (newest Day folder first)
+                      latest_file = sorted(target_files, reverse=True)[0]
+                      print(f"Fallback - using path-sorted file: {latest_file}")
+              except Exception as e:
+                  print(f"Git command failed: {e}, using path-sorted fallback")
+                  latest_file = sorted(target_files, reverse=True)[0]
+
               print(f"Targeting: {latest_file}")
 
               with open(latest_file, 'r') as f:
