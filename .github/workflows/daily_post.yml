@@ -23,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install atproto
-          sudo apt-get update && sudo apt-get install -y ffmpeg
+          sudo apt-get update && sudo apt-get install -y ffmpeg webp
 
       - name: Parse and Post
         shell: python
@@ -34,6 +34,7 @@ jobs:
           import os
           import re
           import subprocess
+          import glob
           from atproto import Client
 
           # Bluesky supported video formats
@@ -51,12 +52,59 @@ jobs:
           def is_image(filename):
               return os.path.splitext(filename)[1].lower() in IMAGE_EXTENSIONS
 
-          def convert_to_mp4(input_path):
-              """Convert WebP/GIF to MP4 using ffmpeg"""
-              output_path = os.path.splitext(input_path)[0] + '_converted.mp4'
-              print(f"Converting {input_path} to {output_path}...")
+          def convert_animated_webp_to_mp4(input_path):
+              """Convert animated WebP to MP4 via GIF intermediate"""
+              base_path = os.path.splitext(input_path)[0]
+              gif_path = base_path + '_temp.gif'
+              output_path = base_path + '_converted.mp4'
+
+              print(f"Converting animated WebP {input_path} to MP4...")
+
               try:
-                  # Use ffmpeg to convert
+                  # Step 1: Convert WebP to GIF using webpmux and convert
+                  # First try direct gif2webp reverse (anim_dump)
+                  result = subprocess.run([
+                      'ffmpeg', '-y', '-f', 'gif', '-i', input_path,
+                      '-movflags', 'faststart',
+                      '-pix_fmt', 'yuv420p',
+                      '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2',
+                      output_path
+                  ], capture_output=True, text=True, timeout=120)
+
+                  if result.returncode == 0 and os.path.exists(output_path) and os.path.getsize(output_path) > 0:
+                      print(f"Direct conversion successful: {output_path}")
+                      return output_path
+
+                  # If that fails, try using img2webp in reverse via frames
+                  print("Direct conversion failed, trying alternative method...")
+
+                  # Try treating as image sequence
+                  result = subprocess.run([
+                      'ffmpeg', '-y',
+                      '-framerate', '10',
+                      '-pattern_type', 'glob', '-i', input_path,
+                      '-c:v', 'libx264',
+                      '-movflags', 'faststart',
+                      '-pix_fmt', 'yuv420p',
+                      output_path
+                  ], capture_output=True, text=True, timeout=120)
+
+                  if result.returncode == 0 and os.path.exists(output_path) and os.path.getsize(output_path) > 0:
+                      print(f"Alternative conversion successful: {output_path}")
+                      return output_path
+
+                  print(f"All conversion methods failed: {result.stderr}")
+                  return None
+
+              except Exception as e:
+                  print(f"Conversion error: {e}")
+                  return None
+
+          def convert_gif_to_mp4(input_path):
+              """Convert GIF to MP4 using ffmpeg"""
+              output_path = os.path.splitext(input_path)[0] + '_converted.mp4'
+              print(f"Converting GIF {input_path} to {output_path}...")
+              try:
                   result = subprocess.run([
                       'ffmpeg', '-y', '-i', input_path,
                       '-movflags', 'faststart',
@@ -64,15 +112,25 @@ jobs:
                       '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2',
                       output_path
                   ], capture_output=True, text=True, timeout=120)
-                  if result.returncode == 0 and os.path.exists(output_path):
-                      print(f"Conversion successful: {output_path}")
+                  if result.returncode == 0 and os.path.exists(output_path) and os.path.getsize(output_path) > 0:
+                      print(f"GIF conversion successful: {output_path}")
                       return output_path
                   else:
-                      print(f"Conversion failed: {result.stderr}")
+                      print(f"GIF conversion failed: {result.stderr}")
                       return None
               except Exception as e:
-                  print(f"Conversion error: {e}")
+                  print(f"GIF conversion error: {e}")
                   return None
+
+          def find_fallback_images(log_dir):
+              """Find any PNG/JPG images in the media folder as fallback"""
+              media_dir = os.path.join(log_dir, 'media')
+              fallback_images = []
+              if os.path.exists(media_dir):
+                  for ext in IMAGE_EXTENSIONS:
+                      fallback_images.extend(glob.glob(os.path.join(media_dir, f'*{ext}')))
+              print(f"Found fallback images: {fallback_images}")
+              return fallback_images
 
           def post_to_bsky():
               # Find all .md files (Log.md) in the structure
@@ -122,7 +180,7 @@ jobs:
               post_text = post_match.group(1).split('##')[0].strip()
               print(f"Post text extracted: {post_text[:50]}...")
 
-              # Extract media from ARTIFACTS - check both video and screenshot
+              # Extract media from ARTIFACTS
               log_dir = os.path.dirname(latest_file)
               videos = []
               images = []
@@ -135,9 +193,13 @@ jobs:
                   for media_path in media_paths:
                       full_path = os.path.join(log_dir, media_path)
                       if os.path.exists(full_path):
-                          # Check if conversion is needed
-                          if needs_conversion(full_path):
-                              converted = convert_to_mp4(full_path)
+                          ext = os.path.splitext(full_path)[1].lower()
+                          if ext == '.webp':
+                              converted = convert_animated_webp_to_mp4(full_path)
+                              if converted:
+                                  videos.append(converted)
+                          elif ext == '.gif':
+                              converted = convert_gif_to_mp4(full_path)
                               if converted:
                                   videos.append(converted)
                           elif is_bsky_video(full_path):
@@ -154,6 +216,11 @@ jobs:
                       if os.path.exists(full_path) and is_image(full_path):
                           images.append(full_path)
                           print(f"Found image file: {full_path}")
+
+              # If no videos converted successfully, look for fallback images
+              if not videos and not images:
+                  print("No videos or explicit images found, looking for fallback images...")
+                  images = find_fallback_images(log_dir)
 
               print("Logging in to Bluesky...")
               client = Client()
