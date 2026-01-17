@@ -14,10 +14,11 @@ def get_next_task(list_file_path):
         content = f.read()
 
     # Find the first incomplete task [- [ ] Task Name]
-    # We focus on the Roadmap section primarily
     match = re.search(r'- \[ \]\s*(.*)', content)
     if match:
         task_name = match.group(1).strip()
+        # Remove parenthetical notes like "(Day 4 予定)" or "(🟡 ミドル)"
+        task_name = re.sub(r'\(.*?\)', '', task_name).strip()
         return task_name
     return None
 

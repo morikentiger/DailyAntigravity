@@ -14,12 +14,14 @@ def send_complex_text(rpa, text):
     rpa.log(f"Sending text via clipboard: {text}")
     process = subprocess.Popen(['pbcopy'], stdin=subprocess.PIPE)
     process.communicate(text.encode('utf-8'))
+    time.sleep(1.0)
 
     # Cmd + V
     rpa.run_applescript('tell application "System Events" to keystroke "v" using command down')
-    time.sleep(0.5)
+    time.sleep(1.2)
     # Enter
     rpa.press_key("enter")
+    time.sleep(0.5)
 
 def main():
     rpa = AntigravityRPA()
