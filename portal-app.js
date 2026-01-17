@@ -34,6 +34,15 @@ const days = [
         appPath: 'Day3__20260117/1_Breakout/game.html',
         activities: 1,
         theme: '#ff00ff'
+    },
+    {
+        id: 'Day 4',
+        title: 'Pizza Eater',
+        date: '2026.01.18',
+        path: 'Day4__20260118/index.html',
+        appPath: 'Day4__20260118/1_PizzaEater/game.html',
+        activities: 1,
+        theme: '#ff6b35'
     }
 ];
 

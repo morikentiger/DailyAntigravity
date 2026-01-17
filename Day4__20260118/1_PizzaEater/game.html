@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza Eater | Daily Antigravity Day 4</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="game-container">
+        <div class="ui-bar">
+            <div class="score">Score: <span id="score">0</span></div>
+            <div class="timer">Time: <span id="timer">60</span>s</div>
+        </div>
+
+        <canvas id="gameCanvas" width="600" height="600"></canvas>
+
+        <div id="start-screen" class="screen">
+            <h1>🍕 Pizza Eater 🍕</h1>
+            <p>ピザを端からかじって全部食べよう！</p>
+            <p class="instructions">クリック または タップ で食べる</p>
+            <button id="startBtn">START</button>
+        </div>
+
+        <div id="gameover-screen" class="screen hidden">
+            <h1>Game Over!</h1>
+            <p>Final Score: <span id="final-score">0</span></p>
+            <p id="result-message"></p>
+            <button id="restartBtn">RETRY</button>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+
+</html>
