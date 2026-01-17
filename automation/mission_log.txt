@@ -12,3 +12,17 @@
 [2026-01-17 22:34:15] Starting send_complex_text
 [2026-01-17 22:34:15] Attempting to set clipboard to: 本日は「ピザを端から食べていくゲー」を作ります。開発を開始してください。
 [2026-01-17 22:34:15] Trying Method 2 (AppleScript)...
+[2026-01-17 22:35:44] --- MISSION START ---
+[2026-01-17 22:35:44] Target: ピザを端から食べていくゲー
+[2026-01-17 22:35:45] Focused Antigravity window.
+[2026-01-17 22:35:48] Clicked chat area.
+[2026-01-17 22:35:50] Starting send_complex_text
+[2026-01-17 22:35:50] Attempting to set clipboard to: 本日は「ピザを端から食べていくゲー」を作ります。開発を開始してください。
+[2026-01-17 22:35:50] Trying Method 2 (AppleScript)...
+[2026-01-17 22:35:51] Method 2 failed with error: Command '['pbpaste']' returned non-zero exit status 1.
+[2026-01-17 22:35:51] Trying Method 1 (pbcopy)...
+[2026-01-17 22:35:52] Method 1 failed with error: Command '['pbpaste']' returned non-zero exit status 1.
+[2026-01-17 22:35:52] CRITICAL: All clipboard methods failed.
+[2026-01-17 22:35:52] Warning: Continuing despite clipboard verification failure.
+[2026-01-17 22:35:54] Enter key pressed.
+[2026-01-17 22:35:54] --- MISSION COMPLETE ---
