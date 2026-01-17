@@ -16,37 +16,43 @@ def log_to_file(message):
     with open(log_path, "a", encoding="utf-8") as f:
         f.write(f"[{timestamp}] {message}\n")
 
-def send_complex_text(rpa, text):
-    """Sets clipboard and pastes using a single robust AppleScript."""
-    log_to_file(f"Executing robust paste: {text[:30]}...")
+def send_command_to_antigravity(rpa, text):
+    """Sends the command via clipboard with extra safety."""
+    log_to_file(f"Preparing to send command: {text[:30]}...")
 
-    # Escape for AppleScript
-    safe_text = text.replace('"', '\\"')
+    # 1. Clear clipboard first to ensure we don't paste old stuff
+    rpa.run_applescript('set the clipboard to ""')
+    time.sleep(0.5)
 
-    # Combined AppleScript: Set clipboard -> Focus -> Paste -> Enter
-    script = f'''
-    set the clipboard to "{safe_text}"
+    # 2. Set new content using pbcopy (proven most compatible in terminal)
+    try:
+        process = subprocess.Popen(['pbcopy'], stdin=subprocess.PIPE)
+        process.communicate(text.encode('utf-8'))
+        log_to_file("pbcopy executed.")
+    except Exception as e:
+        log_to_file(f"pbcopy error: {e}")
+
+    # 3. Wait for OS to sync clipboard
+    time.sleep(1.5)
+
+    # 4. Paste using Cmd+V
+    script = '''
     tell application "System Events"
-        tell process "Antigravity"
-            set frontmost to true
-            delay 0.5
-            keystroke "v" using {{command down}}
-            delay 0.5
-            keystroke return
-        end tell
+        set frontmost of process "Antigravity" to true
+        delay 0.3
+        keystroke "v" using {command down}
+        delay 0.5
+        keystroke return
     end tell
     '''
-    try:
-        rpa.run_applescript(script)
-        log_to_file("Command dispatched via Combined AppleScript.")
-    except Exception as e:
-        log_to_file(f"Combined script failed: {e}")
+    rpa.run_applescript(script)
+    log_to_file("Paste command and Enter sent.")
 
 def main():
     rpa = AntigravityRPA()
     list_file = "/Users/moritak129/DailyAntigravity/やりたいリスト.md"
 
-    log_to_file("--- MISSION START (Direct Typing Mode) ---")
+    log_to_file("--- MISSION START (Standard Simple Mode) ---")
 
     # 1. Read next task
     task_name = get_next_task(list_file)
@@ -58,18 +64,17 @@ def main():
     log_to_file(f"Target: {task_name}")
 
     # 2. Focus Window
-    # Use a more specific title if possible
     if rpa.activate_by_window_title("Antigravity"):
         log_to_file("Focused Antigravity window.")
         time.sleep(1.0)
 
         # 3. Click Chat Area
         if rpa.click_window_area("Antigravity", ratio_x=0.9, ratio_y=0.9):
-            log_to_file("Clicked chat area. Starting typing...")
-            time.sleep(1.0)
+            log_to_file("Clicked chat area.")
+            time.sleep(1.5) # Wait for click to settle
 
-            # 4. Type and Send
-            send_complex_text(rpa, target_text)
+            # 4. Final Delivery
+            send_command_to_antigravity(rpa, target_text)
             log_to_file("--- MISSION COMPLETE ---")
         else:
             log_to_file("Failed to click window.")

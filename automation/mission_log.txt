@@ -63,3 +63,10 @@
 [2026-01-17 22:53:37] Typing text directly: 本日は「ピザを端から食べていくゲー」を作ります。開発を開始し...
 [2026-01-17 22:53:40] Keystrokes sent.
 [2026-01-17 22:53:40] --- MISSION COMPLETE ---
+[2026-01-17 22:55:40] --- MISSION START (Direct Typing Mode) ---
+[2026-01-17 22:55:40] Target: ピザを端から食べていくゲー
+[2026-01-17 22:55:41] Focused Antigravity window.
+[2026-01-17 22:55:44] Clicked chat area. Starting typing...
+[2026-01-17 22:55:45] Executing robust paste: 本日は「ピザを端から食べていくゲー」を作ります。開発を開始し...
+[2026-01-17 22:55:47] Command dispatched via Combined AppleScript.
+[2026-01-17 22:55:47] --- MISSION COMPLETE ---
