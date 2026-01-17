@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Breakout | Daily Antigravity Day 3</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="game-container">
+        <canvas id="gameCanvas"></canvas>
+
+        <div id="ui-layer">
+            <div class="stats">
+                <div id="score">SCORE: 0000</div>
+                <div id="lives">LIVES: 3</div>
+            </div>
+        </div>
+
+        <div id="start-screen">
+            <h1>NEON BREAKOUT</h1>
+            <button id="start-btn">INITIALIZE</button>
+            <p style="margin-top: 20px; opacity: 0.6;">MOUSE OR ARROW KEYS TO MOVE</p>
+        </div>
+
+        <div id="game-over-screen" class="hidden">
+            <h1 id="status-text">GAME OVER</h1>
+            <div style="font-size: 2rem; margin-bottom: 30px;" id="final-score">SCORE: 0</div>
+            <button id="restart-btn">REBOOT</button>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+
+</html>
