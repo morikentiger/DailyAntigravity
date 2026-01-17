@@ -186,11 +186,19 @@ jobs:
               if not post_match:
                   post_match = re.search(r'##\s*POST\s*\n(.*?)$', content, re.DOTALL | re.IGNORECASE)
 
-              if not post_match:
-                  print("Could not parse POST section.")
+              if post_match:
+                  post_text = post_match.group(1).split('##')[0].strip()
+              else:
+                  # Fallback: Use everything before '##' or the whole text if no headers
+                  print("No ## POST section found, using fallback parser.")
+                  post_text = content.split('##')[0].split('OK_TO_POST')[0].strip()
+                  # Remove title (first line if it starts with #)
+                  post_text = re.sub(r'^#.*?\n', '', post_text).strip()
+
+              if not post_text:
+                  print("Could not extract any post text.")
                   return
 
-              post_text = post_match.group(1).split('##')[0].strip()
               print(f"Post text extracted: {post_text[:50]}...")
 
               # Extract media from ARTIFACTS
