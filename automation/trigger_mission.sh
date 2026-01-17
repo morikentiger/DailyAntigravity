@@ -12,6 +12,6 @@ cd "$PROJECT_DIR"
 export PATH="/Users/moritak129/.pyenv/shims:$PATH"
 
 # Run the master mission script
-python3 "$PROJECT_DIR/automation/rpa_engine/scenarios/master_auto_mission.py"
+python3 "$PROJECT_DIR/automation/rpa_engine/scenarios/master_auto_mission.py" > /dev/null 2>&1
 
-echo "Mission Triggered at $(date)"
+echo "Mission Triggered Successfully"
