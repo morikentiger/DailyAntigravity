@@ -10,7 +10,7 @@ RPAシステムからの自動命令によって構築された、プレミア�
 - **パーティクル**: ブロック破壊時に美しく砕け散るエフェクト。
 
 ## メディア
-- 動画：media/breakout_demo.webp
+- 動画：media/breakout_demo.mp4
 - スクリーンショット：media/gameplay_action.png
 
 OK_TO_POST: yes
