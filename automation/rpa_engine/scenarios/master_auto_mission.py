@@ -20,39 +20,41 @@ def set_clipboard_robustly(rpa, text):
     """Sets clipboard and verifies it. Tries multiple methods."""
     log_to_file(f"Attempting to set clipboard to: {text}")
 
-    # Method 1: pbcopy
+    # Method 2: AppleScript (Standard) - Using this first as it's often more reliable in GUI environments
     try:
-        process = subprocess.Popen(['pbcopy'], stdin=subprocess.PIPE)
-        process.communicate(text.encode('utf-8'))
-        time.sleep(0.5)
-    except Exception as e:
-        log_to_file(f"pbcopy failed: {e}")
+        log_to_file("Trying Method 2 (AppleScript)...")
+        # Properly escape for AppleScript
+        escaped_text = text.replace('\\', '\\\\').replace('"', '\\"')
+        cmd = f'osascript -e "set the clipboard to \\"{escaped_text}\\""'
+        subprocess.run(cmd, shell=True, check=True)
+        time.sleep(1.0)
 
-    # Verify Method 1
-    try:
-        current = subprocess.check_output(['pbpaste'], text=True).strip()
-        if current == text:
-            log_to_file("Clipboard verification SUCCESS (Method 1).")
-            return True
-    except:
-        pass
-
-    # Method 2: AppleScript
-    log_to_file("Trying Method 2 (AppleScript)...")
-    safe_text = text.replace('"', '\\"') # Escape double quotes
-    rpa.run_applescript(f'set the clipboard to "{safe_text}"')
-    time.sleep(1.0)
-
-    # Verify Method 2
-    try:
-        current = subprocess.check_output(['pbpaste'], text=True).strip()
+        # Verify
+        current = subprocess.check_output(['pbpaste'], text=True, timeout=2).strip()
         if current == text:
             log_to_file("Clipboard verification SUCCESS (Method 2).")
             return True
-    except:
-        pass
+        else:
+            log_to_file(f"Method 2 verification failed. Current: {current[:30]}...")
+    except Exception as e:
+        log_to_file(f"Method 2 failed with error: {e}")
 
-    log_to_file(f"CRITICAL: Clipboard verification FAILED. Current content: {current[:50]}...")
+    # Method 1: pbcopy (Fallback)
+    try:
+        log_to_file("Trying Method 1 (pbcopy)...")
+        process = subprocess.Popen(['pbcopy'], stdin=subprocess.PIPE)
+        process.communicate(text.encode('utf-8'))
+        time.sleep(1.0)
+
+        # Verify
+        current = subprocess.check_output(['pbpaste'], text=True, timeout=2).strip()
+        if current == text:
+            log_to_file("Clipboard verification SUCCESS (Method 1).")
+            return True
+    except Exception as e:
+        log_to_file(f"Method 1 failed with error: {e}")
+
+    log_to_file(f"CRITICAL: All clipboard methods failed.")
     return False
 
 def send_complex_text(rpa, text):
