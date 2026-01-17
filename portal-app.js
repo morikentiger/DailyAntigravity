@@ -16,6 +16,24 @@ const days = [
         appPath: 'Day1__20260116/1_BaseGame/game.html',
         activities: 1,
         theme: '#00ffaa'
+    },
+    {
+        id: 'Day 2',
+        title: 'Snowball Battle',
+        date: '2026.01.16',
+        path: 'Day2__20260116/index.html',
+        appPath: 'Day2__20260116/1_SnowballBattle/game.html',
+        activities: 1,
+        theme: '#ffffff'
+    },
+    {
+        id: 'Day 3',
+        title: 'Neon Breakout',
+        date: '2026.01.17',
+        path: 'Day3__20260117/index.html',
+        appPath: 'Day3__20260117/1_Breakout/game.html',
+        activities: 1,
+        theme: '#ff00ff'
     }
 ];
 

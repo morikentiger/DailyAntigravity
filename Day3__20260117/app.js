@@ -1,0 +1,236 @@
+// Day 3 Dashboard - Automated Breakout
+const dailyFolders = [
+    {
+        id: 'Day3-1',
+        dir: '1_Breakout',
+        logFile: './1_Breakout/Log.md',
+        date: '2026-01-17',
+        topic: 'ネオン・ブロック崩し (RPA指示)',
+        post: 'RPAシステムからの自動命令によって、Day 3「プレミアム・ネオン・ブロック崩し」を構築しました！\nMacの自動操作から開発・投稿まで完遂する、自律的な文明の一歩です。🤖🚀\n\n👇 観測ログ・ダッシュボード\nhttps://morikentiger.github.io/DailyAntigravity/Day3__20260117/index.html?log=Day3-1',
+        ok_to_post: true,
+        launch: 'game.html',
+        media: {
+            video: 'media/breakout_demo.mp4',
+            screenshot: 'media/gameplay_action.png'
+        }
+    }
+];
+
+// Helper to resolve paths from the Day parent folder
+function resolvePath(itemDir, fileName) {
+    if (!fileName) return null;
+    return `./${itemDir}/${fileName}`;
+}
+
+let currentDate = new Date(2026, 0, 17); // Day 3
+let viewMode = 'week';
+
+const container = document.getElementById('viz-container');
+const detailView = document.getElementById('detail-view');
+const viewBtns = document.querySelectorAll('.view-btn');
+
+function renderDashboard() {
+    container.innerHTML = '';
+    container.className = `content-grid view-${viewMode}`;
+
+    if (viewMode === 'month' || viewMode === 'week') {
+        const days = ['日', '月', '火', '水', '木', '金', '土'];
+        days.forEach(day => {
+            const header = document.createElement('div');
+            header.className = 'grid-header';
+            header.innerText = day;
+            container.appendChild(header);
+        });
+    }
+
+    const startDate = getStartDate(currentDate, viewMode);
+    const dayCount = getDayCount(viewMode);
+
+    for (let i = 0; i < dayCount; i++) {
+        const date = new Date(startDate);
+        date.setDate(startDate.getDate() + i);
+
+        const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+        const matches = dailyFolders.filter(f => f.date === dateStr);
+
+        const cell = document.createElement('div');
+        cell.className = `calendar-cell ${matches.length > 0 ? 'has-data' : 'empty'}`;
+
+        const dayName = date.toLocaleDateString('ja-JP', { weekday: 'short' });
+        const dayNumber = date.getDate();
+
+        cell.innerHTML = `
+            <div class="cell-header">
+                <div class="date-label">${dayNumber} <span class="day-name">${dayName}</span></div>
+            </div>
+            <div class="cell-body">
+                ${matches.length > 0 ? `
+                    <div class="log-list">
+                        ${matches.map(m => `
+                            <div class="log-entry" onclick="event.stopPropagation(); showDetailById('${m.id}')">
+                                <div class="log-main">
+                                    <span class="log-time">${m.id.replace('Day3-', '')}</span>
+                                    <span class="log-title" title="${m.topic}">${m.topic}</span>
+                                </div>
+                                <div class="log-badges">
+                                    ${m.media.video ? '🎬' : ''}
+                                    ${m.media.screenshot ? '🖼️' : ''}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                ` : '<div class="day-topic empty">No Log</div>'}
+            </div>
+        `;
+        container.appendChild(cell);
+    }
+}
+
+function showDetailById(id) {
+    const item = dailyFolders.find(f => f.id === id);
+    if (item) showDetail(item);
+}
+
+function getStartDate(date, mode) {
+    const d = new Date(date);
+    if (mode === 'month') {
+        const firstDayOfMonth = new Date(d.getFullYear(), d.getMonth(), 1);
+        const dayOfWeek = firstDayOfMonth.getDay();
+        firstDayOfMonth.setDate(firstDayOfMonth.getDate() - dayOfWeek);
+        return firstDayOfMonth;
+    } else if (mode === 'week') {
+        const day = d.getDay();
+        d.setDate(d.getDate() - day);
+        return d;
+    }
+    return d;
+}
+
+function getDayCount(mode) {
+    if (mode === 'month') return 35;
+    if (mode === 'week') return 7;
+    if (mode === '3day') return 3;
+    return 1;
+}
+
+function showDetail(item) {
+    detailView.style.display = 'block';
+    document.getElementById('detail-title').innerText = `${item.id}: ${item.topic}`;
+    document.getElementById('detail-date').innerText = item.date;
+    document.getElementById('detail-post').innerText = item.post;
+
+    const mediaContainer = document.querySelector('.preview-media');
+    mediaContainer.innerHTML = '';
+
+    const videos = Array.isArray(item.media.video) ? item.media.video : [item.media.video];
+
+    videos.forEach(v => {
+        const videoDiv = document.createElement('div');
+        videoDiv.className = 'media-item video-container';
+        const videoPath = resolvePath(item.dir, v);
+
+        if (videoPath) {
+            if (videoPath.endsWith('.gif') || videoPath.endsWith('.webp')) {
+                videoDiv.innerHTML = `<img src="${videoPath}" style="width:100%; height:100%; object-fit:contain; border-radius:8px;">`;
+            } else {
+                videoDiv.innerHTML = `<video controls src="${videoPath}" style="width:100%; border-radius:8px;"></video>`;
+            }
+            addTrigger(videoDiv);
+            mediaContainer.appendChild(videoDiv);
+        }
+    });
+
+    if (videos.filter(v => v).length === 0) {
+        const placeholder = document.createElement('div');
+        placeholder.className = 'media-item video-container';
+        placeholder.innerHTML = `<div class="placeholder-text"><span class="icon">🎬</span> No Video recorded</div>`;
+        mediaContainer.appendChild(placeholder);
+    }
+
+    const screens = Array.isArray(item.media.screenshot) ? item.media.screenshot : [item.media.screenshot];
+    screens.forEach(s => {
+        const imgDiv = document.createElement('div');
+        imgDiv.className = 'media-item image-container';
+        const screenPath = resolvePath(item.dir, s);
+
+        if (screenPath) {
+            imgDiv.innerHTML = `<img src="${screenPath}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;">`;
+            addTrigger(imgDiv);
+            mediaContainer.appendChild(imgDiv);
+        }
+    });
+
+    if (screens.filter(s => s).length === 0) {
+        const placeholder = document.createElement('div');
+        placeholder.className = 'media-item image-container';
+        placeholder.innerHTML = `<div class="placeholder-text"><span class="icon">🖼️</span> No Screenshot recorded</div>`;
+        mediaContainer.appendChild(placeholder);
+    }
+
+    function addTrigger(el) {
+        el.style.cursor = 'zoom-in';
+        el.onclick = () => {
+            const content = el.innerHTML;
+            if (!content.includes('placeholder-text')) {
+                openLightbox(content);
+            }
+        };
+    }
+
+    detailView.scrollIntoView({ behavior: 'smooth' });
+
+    const url = new URL(window.location);
+    url.searchParams.set('log', item.id);
+    window.history.pushState({}, '', url);
+}
+
+function shareLink() {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+        const btn = document.querySelector('.share-btn-floating');
+        const originalText = btn.innerText;
+        btn.innerText = 'Copied!';
+        setTimeout(() => { btn.innerText = originalText; }, 2000);
+    });
+}
+
+const lightbox = document.getElementById('lightbox');
+const lightboxContent = document.querySelector('.lightbox-content');
+
+function openLightbox(content) {
+    lightboxContent.innerHTML = content;
+    lightbox.classList.add('active');
+
+    const video = lightboxContent.querySelector('video');
+    if (video) video.play();
+}
+
+lightbox.onclick = (e) => {
+    if (e.target === lightbox || e.target.classList.contains('close-lightbox')) {
+        lightbox.classList.remove('active');
+        setTimeout(() => {
+            if (!lightbox.classList.contains('active')) {
+                lightboxContent.innerHTML = '';
+            }
+        }, 300);
+    }
+};
+
+viewBtns.forEach(btn => {
+    btn.onclick = () => {
+        viewBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        viewMode = btn.dataset.mode;
+        renderDashboard();
+    };
+});
+
+renderDashboard();
+
+window.onload = () => {
+    const params = new URLSearchParams(window.location.search);
+    const logId = params.get('log');
+    if (logId) {
+        showDetailById(logId);
+    }
+};
