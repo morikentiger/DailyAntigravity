@@ -16,37 +16,26 @@ def log_to_file(message):
     with open(log_path, "a", encoding="utf-8") as f:
         f.write(f"[{timestamp}] {message}\n")
 
-def set_clipboard_robustly(rpa, text):
-    """Sets clipboard by writing to a file and using AppleScript to read it."""
-    log_to_file(f"Attempting to set clipboard via file: {text[:30]}...")
+def set_clipboard_robustly(log_msg, text):
+    """Sets clipboard using native AppKit. The most robust way on macOS."""
+    log_to_file(f"Attempting native AppKit clipboard set: {text[:30]}...")
 
-    temp_file = "/Users/moritak129/DailyAntigravity/automation/tmp_cmd.txt"
     try:
-        with open(temp_file, "w", encoding="utf-8") as f:
-            f.write(text)
-
-        # Method 3: AppleScript reading from file
-        log_to_file("Trying Method 3 (AppleScript read file)...")
-        # AppleScript to read file and set clipboard
-        script = f'set the clipboard to (read POSIX file "{temp_file}" as «class utf8»)'
-        subprocess.run(['osascript', '-e', script], check=True)
+        from AppKit import NSPasteboard, NSStringPboardType
+        pb = NSPasteboard.generalPasteboard()
+        pb.declareTypes_owner_([NSStringPboardType], None)
+        pb.setString_forType_(text, NSStringPboardType)
         time.sleep(1.0)
 
         # Verify
-        # If pbpaste fails, we'll try a different verification or just assume success if no error
-        try:
-            current = subprocess.check_output(['pbpaste'], text=True, timeout=2).strip()
-            if current == text:
-                log_to_file("Clipboard verification SUCCESS (Method 3).")
-                return True
-            else:
-                log_to_file(f"Method 3 verification failed. Current: {current[:30]}...")
-        except:
-             log_to_file("pbpaste still failing, but script didn't error. Proceeding...")
-             return True # Assume OK if osascript didn't fail
-
+        current = pb.stringForType_(NSStringPboardType)
+        if current == text:
+            log_to_file("NATIVE AppKit clipboard verification SUCCESS.")
+            return True
+        else:
+            log_to_file(f"Native verification FAILED. Current: {current[:30]}...")
     except Exception as e:
-        log_to_file(f"Method 3 failed: {e}")
+        log_to_file(f"Native AppKit failed: {e}")
 
     return False
 
