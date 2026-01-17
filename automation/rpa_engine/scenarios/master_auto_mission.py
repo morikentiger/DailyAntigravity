@@ -16,55 +16,31 @@ def log_to_file(message):
     with open(log_path, "a", encoding="utf-8") as f:
         f.write(f"[{timestamp}] {message}\n")
 
-def set_clipboard_robustly(log_msg, text):
-    """Sets clipboard using native AppKit. The most robust way on macOS."""
-    log_to_file(f"Attempting native AppKit clipboard set: {text[:30]}...")
-
-    try:
-        from AppKit import NSPasteboard, NSStringPboardType
-        pb = NSPasteboard.generalPasteboard()
-        pb.declareTypes_owner_([NSStringPboardType], None)
-        pb.setString_forType_(text, NSStringPboardType)
-        time.sleep(1.0)
-
-        # Verify
-        current = pb.stringForType_(NSStringPboardType)
-        if current == text:
-            log_to_file("NATIVE AppKit clipboard verification SUCCESS.")
-            return True
-        else:
-            log_to_file(f"Native verification FAILED. Current: {current[:30]}...")
-    except Exception as e:
-        log_to_file(f"Native AppKit failed: {e}")
-
-    return False
-
 def send_complex_text(rpa, text):
-    """Types text directly using AppleScript keystroke (Bypasses clipboard)."""
-    log_to_file(f"Typing text directly: {text[:30]}...")
+    """Sets clipboard and pastes using a single robust AppleScript."""
+    log_to_file(f"Executing robust paste: {text[:30]}...")
 
-    # We use a trick: Japanese text is hard to 'keystroke' individually.
-    # But since CLI/Shortcut clipboard is failing, let's try to keystroke the whole string.
-    # System Events 'keystroke' can handle some unicode if the target app supports it.
-
-    # Escape quotes for AppleScript
+    # Escape for AppleScript
     safe_text = text.replace('"', '\\"')
+
+    # Combined AppleScript: Set clipboard -> Focus -> Paste -> Enter
     script = f'''
+    set the clipboard to "{safe_text}"
     tell application "System Events"
-        set the text_to_type to "{safe_text}"
-        repeat with i from 1 to count characters of the text_to_type
-            keystroke (character i of the text_to_type)
-            delay 0.01
-        end repeat
-        delay 0.5
-        keystroke return
+        tell process "Antigravity"
+            set frontmost to true
+            delay 0.5
+            keystroke "v" using {{command down}}
+            delay 0.5
+            keystroke return
+        end tell
     end tell
     '''
     try:
         rpa.run_applescript(script)
-        log_to_file("Keystrokes sent.")
+        log_to_file("Command dispatched via Combined AppleScript.")
     except Exception as e:
-        log_to_file(f"Typing failed: {e}")
+        log_to_file(f"Combined script failed: {e}")
 
 def main():
     rpa = AntigravityRPA()
