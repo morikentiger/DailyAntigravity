@@ -21,4 +21,5 @@
 8スライスのピザを60秒以内に完食しよう！
 #DailyAntigravity #GameDev #自律開発
 
+VIDEO: gameplay.mp4
 OK_TO_POST: yes
