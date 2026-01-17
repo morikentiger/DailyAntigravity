@@ -43,6 +43,24 @@ const days = [
         appPath: 'Day4__20260118/1_PizzaEater/game.html',
         activities: 1,
         theme: '#ff6b35'
+    },
+    {
+        id: 'Day 5',
+        title: 'Bomb Counter',
+        date: '2026.01.18',
+        path: 'Day5__20260118/index.html',
+        appPath: 'Day5__20260118/1_BombCounter/game.html',
+        activities: 1,
+        theme: '#ff8800'
+    },
+    {
+        id: 'Day 6',
+        title: 'Pokey Blowaway',
+        date: '2026.01.18',
+        path: 'Day6__20260118/index.html',
+        appPath: 'Day6__20260118/1_PokeyBlowaway/game.html',
+        activities: 1,
+        theme: '#f4d03f'
     }
 ];
 

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bomb Counter | Daily Antigravity Day 5</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="game-container">
+        <header class="game-header">
+            <div class="score-display">
+                <span class="label">💣 COUNT</span>
+                <span id="score">0</span>
+            </div>
+            <div class="timer-display">
+                <span class="label">⏱️ TIME</span>
+                <span id="timer">30</span>
+            </div>
+        </header>
+
+        <main id="game-area" class="game-area">
+            <!-- Bombs will spawn here -->
+        </main>
+
+        <div id="start-screen" class="overlay">
+            <div class="overlay-content">
+                <h1>💣 Bomb Counter</h1>
+                <p>ボム兵をカウントせよ！</p>
+                <p class="instructions">30秒以内にできるだけ多くの<br>ボム兵をタップしよう！</p>
+                <button id="startBtn" class="start-btn">START</button>
+            </div>
+        </div>
+
+        <div id="result-screen" class="overlay hidden">
+            <div class="overlay-content">
+                <h1>💥 TIME UP!</h1>
+                <p class="result-label">カウント数</p>
+                <p id="final-score" class="final-score">0</p>
+                <p id="rank" class="rank"></p>
+                <button id="retryBtn" class="start-btn">RETRY</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+
+</html>

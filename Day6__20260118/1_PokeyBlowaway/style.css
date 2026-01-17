@@ -1,0 +1,356 @@
+:root {
+    --desert-yellow: #f4d03f;
+    --desert-orange: #eb984e;
+    --sky-blue: #5dade2;
+    --pokey-yellow: #f1c40f;
+    --pokey-spike: #2c3e50;
+    --accent-red: #e74c3c;
+    --text-white: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: 'SF Pro Display', system-ui, -apple-system, sans-serif;
+    background-color: var(--sky-blue);
+    height: 100vh;
+    overflow: hidden;
+    color: var(--text-white);
+}
+
+.game-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.game-header {
+    height: 80px;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    z-index: 50;
+}
+
+.stat-box {
+    text-align: center;
+}
+
+.label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    opacity: 0.8;
+    margin-bottom: 2px;
+}
+
+#score,
+#timer,
+#combo {
+    font-size: 1.8rem;
+    font-weight: 900;
+    font-variant-numeric: tabular-nums;
+}
+
+.game-area {
+    flex: 1;
+    position: relative;
+    background: linear-gradient(to bottom, var(--sky-blue) 0%, #aed6f1 70%);
+    overflow: hidden;
+    cursor: pointer;
+}
+
+#desert-background {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(to bottom, var(--desert-yellow) 0%, var(--desert-orange) 100%);
+    clip-path: ellipse(80% 100% at 50% 100%);
+}
+
+#ground {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background: #d35400;
+    z-index: 10;
+}
+
+/* Pokey Styling */
+.pokey-stack {
+    position: absolute;
+    bottom: 60px;
+    /* On the ground */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    z-index: 20;
+}
+
+.pokey-segment {
+    width: 80px;
+    height: 80px;
+    background-color: var(--pokey-yellow);
+    border: 4px solid #d4ac0d;
+    border-radius: 50%;
+    position: relative;
+    margin-bottom: -10px;
+    /* Slight overlap */
+    box-shadow: inset -5px -5px 0 rgba(0, 0, 0, 0.1);
+    transition: transform 0.1s ease-out, bottom 0.2s ease-in-out;
+}
+
+.pokey-head {
+    background-color: var(--pokey-yellow);
+    z-index: 5;
+}
+
+/* Pokey Face */
+.pokey-segment::before,
+.pokey-segment::after {
+    content: '';
+    position: absolute;
+    background: var(--pokey-spike);
+}
+
+/* Spikes */
+.spike {
+    position: absolute;
+    width: 6px;
+    height: 12px;
+    background: var(--pokey-spike);
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.spike-1 {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.spike-2 {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) rotate(180deg);
+}
+
+.spike-3 {
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+}
+
+.spike-4 {
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+}
+
+/* Eyes for segments and head */
+.eye {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #000;
+    border-radius: 50%;
+    top: 35%;
+}
+
+.eye-l {
+    left: 25%;
+}
+
+.eye-r {
+    right: 25%;
+}
+
+.pokey-head .mouth {
+    position: absolute;
+    bottom: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 4px;
+    background: #000;
+    border-radius: 2px;
+}
+
+/* Blowaway Animation Class */
+.blowaway {
+    position: absolute !important;
+    z-index: 100 !important;
+    animation: blowout 0.6s cubic-bezier(0.1, 0.7, 1.0, 0.1) forwards;
+}
+
+@keyframes blowout {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(400px, -200px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.blowaway-left {
+    animation: blowoutLeft 0.6s cubic-bezier(0.1, 0.7, 1.0, 0.1) forwards;
+}
+
+@keyframes blowoutLeft {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-400px, -200px) rotate(-360deg);
+        opacity: 0;
+    }
+}
+
+/* Tap Feedback */
+.tap-effect {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    animation: ripple 0.3s ease-out forwards;
+    z-index: 200;
+}
+
+@keyframes ripple {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(3);
+        opacity: 0;
+    }
+}
+
+/* Overlays */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.overlay.hidden {
+    display: none;
+}
+
+.overlay-content {
+    background: white;
+    color: #333;
+    padding: 2.5rem;
+    border-radius: 24px;
+    text-align: center;
+    max-width: 90%;
+    width: 400px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.overlay-content h1 {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    color: var(--desert-orange);
+}
+
+.instructions {
+    margin: 1.5rem 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #666;
+}
+
+.btn-start {
+    background: var(--desert-orange);
+    color: white;
+    border: none;
+    padding: 1.2rem 2.5rem;
+    font-size: 1.2rem;
+    font-weight: 800;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: 100%;
+}
+
+.btn-start:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(235, 152, 78, 0.4);
+}
+
+.final-stats {
+    margin: 2rem 0;
+}
+
+.res-label {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.res-score {
+    font-size: 4rem;
+    font-weight: 900;
+    color: var(--desert-orange);
+    margin: 0.5rem 0;
+}
+
+.res-rank {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--pokey-yellow);
+    background: #333;
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    border-radius: 12px;
+}
+
+/* Dynamic animations for the Pokey stack */
+.shake {
+    animation: pokeyShake 0.1s linear infinite;
+}
+
+@keyframes pokeyShake {
+    0% {
+        transform: translateX(-51%);
+    }
+
+    50% {
+        transform: translateX(-49%);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}

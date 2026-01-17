@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pokey Blowaway | Daily Antigravity Day 6</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="game-container">
+        <header class="game-header">
+            <div class="stat-box">
+                <span class="label">🌵 DEFEATED</span>
+                <span id="score">0</span>
+            </div>
+            <div class="stat-box">
+                <span class="label">⏳ TIME</span>
+                <span id="timer">30</span>
+            </div>
+            <div class="stat-box">
+                <span class="label">🔥 COMBO</span>
+                <span id="combo">0</span>
+            </div>
+        </header>
+
+        <main id="game-area" class="game-area">
+            <div id="sky"></div>
+            <div id="desert-background"></div>
+            <div id="pokey-stack" class="pokey-stack">
+                <!-- Pokey segments will be injected here -->
+            </div>
+            <div id="ground"></div>
+        </main>
+
+        <div id="start-screen" class="overlay">
+            <div class="overlay-content">
+                <h1>🌵 Pokey Blowaway</h1>
+                <p>サンボを連打で吹っ飛ばせ！</p>
+                <div class="instructions">
+                    <p>連打（タップ/クリック）でサンボの節を弾き出せ！</p>
+                    <p>30秒間で何段飛ばせるか挑戦だ！</p>
+                </div>
+                <button id="startBtn" class="btn-start">START MISSION</button>
+            </div>
+        </div>
+
+        <div id="result-screen" class="overlay hidden">
+            <div class="overlay-content">
+                <h1 id="result-title">MISSION OVER</h1>
+                <div class="final-stats">
+                    <p class="res-label">吹っ飛ばした節の数</p>
+                    <p id="final-score" class="res-score">0</p>
+                    <p id="rank" class="res-rank">RANK: C</p>
+                </div>
+                <button id="retryBtn" class="btn-start">RETRY</button>
+            </div>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+
+</html>

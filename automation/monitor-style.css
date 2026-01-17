@@ -1,0 +1,325 @@
+:root {
+    --bg-dark: #0a0a0f;
+    --bg-card: #12121a;
+    --bg-card-hover: #1a1a25;
+    --text-primary: #ffffff;
+    --text-secondary: #8888aa;
+    --accent-blue: #4a9eff;
+    --accent-purple: #a855f7;
+    --accent-green: #22c55e;
+    --accent-yellow: #f59e0b;
+    --accent-red: #ef4444;
+    --border-color: #2a2a3a;
+    --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    min-height: 100vh;
+    background-image:
+        radial-gradient(ellipse at top, #1a1a2e 0%, transparent 50%),
+        radial-gradient(ellipse at bottom, #16213e 0%, transparent 50%);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+.status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.status-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.status-card:hover {
+    background: var(--bg-card-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(74, 158, 255, 0.1);
+}
+
+.main-status {
+    grid-column: span 1;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border: 2px solid var(--accent-blue);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.card-header .icon {
+    font-size: 1.2rem;
+}
+
+.status-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.status-indicator {
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border-color);
+    overflow: hidden;
+}
+
+.status-indicator.running {
+    background: var(--accent-blue);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.status-indicator.waiting {
+    background: var(--accent-yellow);
+    animation: blink 1s ease-in-out infinite;
+}
+
+.status-indicator.complete {
+    background: var(--accent-green);
+}
+
+.status-indicator.idle {
+    background: var(--text-secondary);
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+.mission-name {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--accent-purple);
+    margin-bottom: 0.5rem;
+}
+
+.next-task {
+    font-size: 1.1rem;
+    color: var(--accent-yellow);
+    line-height: 1.4;
+}
+
+.daemon-status {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.daemon-status.active {
+    color: var(--accent-green);
+}
+
+.daemon-status.inactive {
+    color: var(--accent-red);
+}
+
+.meta-info {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+}
+
+.schedule-card {
+    background: linear-gradient(135deg, #1a1a2e 0%, #2d1f3d 100%);
+    border: 1px solid var(--accent-purple);
+}
+
+.next-action-time {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent-yellow);
+    margin-bottom: 0.3rem;
+}
+
+.next-action-content {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.countdown {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--accent-purple);
+    margin-top: 0.75rem;
+    padding: 0.5rem;
+    background: rgba(168, 85, 247, 0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.log-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.checklist {
+    margin-top: 1rem;
+}
+
+.checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.checklist-item:last-child {
+    border-bottom: none;
+}
+
+.checklist-item.completed {
+    color: var(--accent-green);
+}
+
+.checklist-item.pending {
+    color: var(--text-secondary);
+}
+
+.checklist-item.in-progress {
+    color: var(--accent-blue);
+}
+
+.log-entries {
+    margin-top: 1rem;
+    font-family: 'SF Mono', 'Menlo', monospace;
+    font-size: 0.85rem;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.log-entry {
+    padding: 0.5rem;
+    border-left: 3px solid var(--border-color);
+    margin-bottom: 0.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 0 8px 8px 0;
+}
+
+.log-entry.info {
+    border-left-color: var(--accent-blue);
+}
+
+.log-entry.success {
+    border-left-color: var(--accent-green);
+}
+
+.log-entry.warning {
+    border-left-color: var(--accent-yellow);
+}
+
+.log-time {
+    color: var(--text-secondary);
+    margin-right: 1rem;
+}
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.footer-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.footer-links a {
+    color: var(--accent-blue);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer-links a:hover {
+    color: var(--accent-purple);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}

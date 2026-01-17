@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 Antigravity Mission Control</title>
+    <link rel="stylesheet" href="monitor-style.css">
+    <meta http-equiv="refresh" content="5">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 Mission Control</h1>
+            <p class="subtitle">Antigravity Autonomous Development System</p>
+        </header>
+
+        <div class="status-grid">
+            <div class="status-card main-status">
+                <div class="card-header">
+                    <span class="icon">⚡</span>
+                    <span>システムステータス</span>
+                </div>
+                <div id="current-status" class="status-value">--</div>
+                <div id="status-indicator" class="status-indicator"></div>
+            </div>
+
+            <div class="status-card">
+                <div class="card-header">
+                    <span class="icon">🎯</span>
+                    <span>現在のミッション</span>
+                </div>
+                <div id="current-mission" class="mission-name">--</div>
+                <div id="mission-start" class="meta-info">開始: --</div>
+            </div>
+
+            <div class="status-card">
+                <div class="card-header">
+                    <span class="icon">⏭️</span>
+                    <span>次のタスク</span>
+                </div>
+                <div id="next-task" class="next-task">--</div>
+            </div>
+
+            <div class="status-card schedule-card">
+                <div class="card-header">
+                    <span class="icon">⏰</span>
+                    <span>次のアクション予定</span>
+                </div>
+                <div id="next-action-time" class="next-action-time">--</div>
+                <div id="next-action-content" class="next-action-content">--</div>
+                <div id="next-action-trigger" class="meta-info">--</div>
+                <div id="countdown" class="countdown"></div>
+            </div>
+
+            <div class="status-card">
+                <div class="card-header">
+                    <span class="icon">🤖</span>
+                    <span>RPA デーモン</span>
+                </div>
+                <div id="daemon-status" class="daemon-status">--</div>
+                <div id="last-action" class="meta-info">最終アクション: --</div>
+            </div>
+        </div>
+
+        <div class="log-section">
+            <div class="card-header">
+                <span class="icon">📋</span>
+                <span>進捗チェックリスト</span>
+            </div>
+            <div id="checklist" class="checklist"></div>
+        </div>
+
+        <div class="log-section">
+            <div class="card-header">
+                <span class="icon">📜</span>
+                <span>最新ログ</span>
+            </div>
+            <div id="log-entries" class="log-entries"></div>
+        </div>
+
+        <footer>
+            <div id="last-update">最終更新: --</div>
+            <div class="footer-links">
+                <a href="../index.html">🏠 Portal</a>
+                <a href="checkpoint.md" target="_blank">📝 Checkpoint</a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="monitor-app.js"></script>
+</body>
+
+</html>
