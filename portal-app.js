@@ -53,6 +53,12 @@ function renderPortal() {
             </div>
         </div>
     `).join('');
+
+    // Update the sync-status in the footer
+    const statusEl = document.querySelector('.sync-status');
+    if (statusEl) {
+        statusEl.innerText = `All Systems Operational • Updated: ${new Date().toLocaleString('ja-JP')}`;
+    }
 }
 
 document.addEventListener('DOMContentLoaded', renderPortal);
