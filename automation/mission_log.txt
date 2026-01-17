@@ -1,72 +1,19 @@
-[2026-01-17 22:33:27] --- MISSION START ---
-[2026-01-17 22:33:27] Target: ピザを端から食べていくゲー
-[2026-01-17 22:33:28] Focused Antigravity window.
-[2026-01-17 22:33:31] Clicked chat area.
-[2026-01-17 22:33:33] Starting send_complex_text
-[2026-01-17 22:33:33] Attempting to set clipboard to: 本日は「ピザを端から食べていくゲー」を作ります。開発を開始してください。
-[2026-01-17 22:33:33] Trying Method 2 (AppleScript)...
-[2026-01-17 22:34:09] --- MISSION START ---
-[2026-01-17 22:34:09] Target: ピザを端から食べていくゲー
-[2026-01-17 22:34:10] Focused Antigravity window.
-[2026-01-17 22:34:13] Clicked chat area.
-[2026-01-17 22:34:15] Starting send_complex_text
-[2026-01-17 22:34:15] Attempting to set clipboard to: 本日は「ピザを端から食べていくゲー」を作ります。開発を開始してください。
-[2026-01-17 22:34:15] Trying Method 2 (AppleScript)...
-[2026-01-17 22:35:44] --- MISSION START ---
-[2026-01-17 22:35:44] Target: ピザを端から食べていくゲー
-[2026-01-17 22:35:45] Focused Antigravity window.
-[2026-01-17 22:35:48] Clicked chat area.
-[2026-01-17 22:35:50] Starting send_complex_text
-[2026-01-17 22:35:50] Attempting to set clipboard to: 本日は「ピザを端から食べていくゲー」を作ります。開発を開始してください。
-[2026-01-17 22:35:50] Trying Method 2 (AppleScript)...
-[2026-01-17 22:35:51] Method 2 failed with error: Command '['pbpaste']' returned non-zero exit status 1.
-[2026-01-17 22:35:51] Trying Method 1 (pbcopy)...
-[2026-01-17 22:35:52] Method 1 failed with error: Command '['pbpaste']' returned non-zero exit status 1.
-[2026-01-17 22:35:52] CRITICAL: All clipboard methods failed.
-[2026-01-17 22:35:52] Warning: Continuing despite clipboard verification failure.
-[2026-01-17 22:35:54] Enter key pressed.
-[2026-01-17 22:35:54] --- MISSION COMPLETE ---
-[2026-01-17 22:39:01] --- MISSION START ---
-[2026-01-17 22:39:01] Target: ピザを端から食べていくゲー
-[2026-01-17 22:39:02] Focused Antigravity window.
-[2026-01-17 22:39:05] Clicked chat area.
-[2026-01-17 22:39:07] Starting send_complex_text
-[2026-01-17 22:39:07] Attempting to set clipboard via file: 本日は「ピザを端から食べていくゲー」を作ります。開発を開始し...
-[2026-01-17 22:39:07] Trying Method 3 (AppleScript read file)...
-[2026-01-17 22:39:08] pbpaste still failing, but script didn't error. Proceeding...
-[2026-01-17 22:39:10] Enter key pressed.
-[2026-01-17 22:39:10] --- MISSION COMPLETE ---
-[2026-01-17 22:47:30] --- MISSION START ---
-[2026-01-17 22:47:30] Target: ピザを端から食べていくゲー
-[2026-01-17 22:47:31] Focused Antigravity window.
-[2026-01-17 22:47:34] Clicked chat area.
-[2026-01-17 22:47:36] Starting send_complex_text
-[2026-01-17 22:47:36] Attempting native AppKit clipboard set: 本日は「ピザを端から食べていくゲー」を作ります。開発を開始し...
-[2026-01-17 22:47:36] Native AppKit failed: 'NoneType' object has no attribute 'declareTypes_owner_'
-[2026-01-17 22:47:36] Warning: Continuing despite clipboard verification failure.
-[2026-01-17 22:47:38] Enter key pressed.
-[2026-01-17 22:47:38] --- MISSION COMPLETE ---
-[2026-01-17 22:51:05] --- MISSION START ---
-[2026-01-17 22:51:05] Target: ピザを端から食べていくゲー
-[2026-01-17 22:51:06] Focused Antigravity window.
-[2026-01-17 22:51:09] Clicked chat area.
-[2026-01-17 22:51:11] Starting send_complex_text
-[2026-01-17 22:51:11] Attempting native AppKit clipboard set: 本日は「ピザを端から食べていくゲー」を作ります。開発を開始し...
-[2026-01-17 22:51:11] Native AppKit failed: 'NoneType' object has no attribute 'declareTypes_owner_'
-[2026-01-17 22:51:11] Warning: Continuing despite clipboard verification failure.
-[2026-01-17 22:51:13] Enter key pressed.
-[2026-01-17 22:51:13] --- MISSION COMPLETE ---
-[2026-01-17 22:53:32] --- MISSION START (Direct Typing Mode) ---
-[2026-01-17 22:53:32] Target: ピザを端から食べていくゲー
-[2026-01-17 22:53:33] Focused Antigravity window.
-[2026-01-17 22:53:36] Clicked chat area. Starting typing...
-[2026-01-17 22:53:37] Typing text directly: 本日は「ピザを端から食べていくゲー」を作ります。開発を開始し...
-[2026-01-17 22:53:40] Keystrokes sent.
-[2026-01-17 22:53:40] --- MISSION COMPLETE ---
-[2026-01-17 22:55:40] --- MISSION START (Direct Typing Mode) ---
-[2026-01-17 22:55:40] Target: ピザを端から食べていくゲー
-[2026-01-17 22:55:41] Focused Antigravity window.
-[2026-01-17 22:55:44] Clicked chat area. Starting typing...
-[2026-01-17 22:55:45] Executing robust paste: 本日は「ピザを端から食べていくゲー」を作ります。開発を開始し...
-[2026-01-17 22:55:47] Command dispatched via Combined AppleScript.
-[2026-01-17 22:55:47] --- MISSION COMPLETE ---
+[2026-01-17 23:01:54] --- MISSION START (Standard Simple Mode) ---
+[2026-01-17 23:01:54] Target: ピザを端から食べていくゲー
+[2026-01-17 23:01:55] Focused Antigravity window.
+[2026-01-17 23:01:57] Clicked chat area.
+[2026-01-17 23:01:59] Preparing to send command: 本日は「ピザを端から食べていくゲー」を作ります。開発を開始し...
+[2026-01-17 23:02:00] pbcopy executed.
+[2026-01-17 23:02:02] Paste command and Enter sent.
+[2026-01-17 23:02:02] --- MISSION COMPLETE ---
+[2026-01-17 23:04:39] --- MISSION START (Standard Simple Mode) ---
+[2026-01-17 23:04:39] Target: ピザを端から食べていくゲー
+[2026-01-17 23:04:42] Failed to find Antigravity window.
+[2026-01-17 23:05:05] --- MISSION START (Standard Simple Mode) ---
+[2026-01-17 23:05:05] Target: ピザを端から食べていくゲー
+[2026-01-17 23:05:06] Focused Antigravity window.
+[2026-01-17 23:05:09] Clicked chat area.
+[2026-01-17 23:05:10] Preparing to send command: 本日は「ピザを端から食べていくゲー」を作ります。開発を開始し...
+[2026-01-17 23:05:11] pbcopy executed.
+[2026-01-17 23:05:13] Paste command and Enter sent.
+[2026-01-17 23:05:13] --- MISSION COMPLETE ---
