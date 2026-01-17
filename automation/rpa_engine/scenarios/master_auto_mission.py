@@ -10,16 +10,20 @@ from core import AntigravityRPA
 from lib.task_parser import get_next_task
 
 def send_complex_text(rpa, text):
-    """Robustly sends text (including Japanese) via clipboard and Cmd+V."""
+    """Robustly sends text via clipboard using AppleScript and Cmd+V."""
     rpa.log(f"Sending text via clipboard: {text}")
-    process = subprocess.Popen(['pbcopy'], stdin=subprocess.PIPE)
-    process.communicate(text.encode('utf-8'))
-    time.sleep(1.0)
 
-    # Cmd + V
+    # Use AppleScript to set clipboard (more reliable in Shortcuts than pbcopy pipe)
+    # Use quoted form to handle special characters and Japanese
+    safe_text = text.replace("'", "'\"'\"'")
+    rpa.run_applescript(f"set the clipboard to '{safe_text}'")
+    time.sleep(1.0) # Ensure clipboard stable
+
+    # Paste
     rpa.run_applescript('tell application "System Events" to keystroke "v" using command down')
-    time.sleep(1.2)
-    # Enter
+    time.sleep(1.2) # Wait for UI to process the paste
+
+    # Confirm (Send)
     rpa.press_key("enter")
     time.sleep(0.5)
 
