@@ -10,6 +10,22 @@ PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
 echo "[$TIMESTAMP] Sync Started in $PROJECT_DIR"
 
+# Auto-convert media (WebP -> MP4) before push
+for webp in $(find . -path "*/media/*.webp"); do
+    mp4="${webp%.*}.mp4"
+    if [ ! -f "$mp4" ]; then
+        echo "[$TIMESTAMP] Converting $webp to $mp4..."
+        # WebP -> GIF -> MP4 for better compatibility
+        temp_gif="${webp%.*}.gif"
+        if magick "$webp" "$temp_gif" && ffmpeg -y -i "$temp_gif" -movflags faststart -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" "$mp4"; then
+            echo "[$TIMESTAMP] Conversion success: $mp4"
+            rm "$temp_gif"
+        else
+            echo "[$TIMESTAMP] Conversion failed for $webp"
+        fi
+    fi
+done
+
 cd "$PROJECT_DIR"
 
 # Check for changes
