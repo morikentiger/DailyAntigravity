@@ -36,3 +36,23 @@
 [2026-01-17 22:39:08] pbpaste still failing, but script didn't error. Proceeding...
 [2026-01-17 22:39:10] Enter key pressed.
 [2026-01-17 22:39:10] --- MISSION COMPLETE ---
+[2026-01-17 22:47:30] --- MISSION START ---
+[2026-01-17 22:47:30] Target: ピザを端から食べていくゲー
+[2026-01-17 22:47:31] Focused Antigravity window.
+[2026-01-17 22:47:34] Clicked chat area.
+[2026-01-17 22:47:36] Starting send_complex_text
+[2026-01-17 22:47:36] Attempting native AppKit clipboard set: 本日は「ピザを端から食べていくゲー」を作ります。開発を開始し...
+[2026-01-17 22:47:36] Native AppKit failed: 'NoneType' object has no attribute 'declareTypes_owner_'
+[2026-01-17 22:47:36] Warning: Continuing despite clipboard verification failure.
+[2026-01-17 22:47:38] Enter key pressed.
+[2026-01-17 22:47:38] --- MISSION COMPLETE ---
+[2026-01-17 22:51:05] --- MISSION START ---
+[2026-01-17 22:51:05] Target: ピザを端から食べていくゲー
+[2026-01-17 22:51:06] Focused Antigravity window.
+[2026-01-17 22:51:09] Clicked chat area.
+[2026-01-17 22:51:11] Starting send_complex_text
+[2026-01-17 22:51:11] Attempting native AppKit clipboard set: 本日は「ピザを端から食べていくゲー」を作ります。開発を開始し...
+[2026-01-17 22:51:11] Native AppKit failed: 'NoneType' object has no attribute 'declareTypes_owner_'
+[2026-01-17 22:51:11] Warning: Continuing despite clipboard verification failure.
+[2026-01-17 22:51:13] Enter key pressed.
+[2026-01-17 22:51:13] --- MISSION COMPLETE ---

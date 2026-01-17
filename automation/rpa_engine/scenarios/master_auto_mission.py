@@ -40,25 +40,37 @@ def set_clipboard_robustly(log_msg, text):
     return False
 
 def send_complex_text(rpa, text):
-    """Robustly sends text via clipboard and Cmd+V."""
-    log_to_file("Starting send_complex_text")
+    """Types text directly using AppleScript keystroke (Bypasses clipboard)."""
+    log_to_file(f"Typing text directly: {text[:30]}...")
 
-    if not set_clipboard_robustly(rpa, text):
-        log_to_file("Warning: Continuing despite clipboard verification failure.")
+    # We use a trick: Japanese text is hard to 'keystroke' individually.
+    # But since CLI/Shortcut clipboard is failing, let's try to keystroke the whole string.
+    # System Events 'keystroke' can handle some unicode if the target app supports it.
 
-    # Paste
-    rpa.run_applescript('tell application "System Events" to keystroke "v" using command down')
-    time.sleep(1.5)
-
-    # Confirm (Send)
-    rpa.press_key("enter")
-    log_to_file("Enter key pressed.")
+    # Escape quotes for AppleScript
+    safe_text = text.replace('"', '\\"')
+    script = f'''
+    tell application "System Events"
+        set the text_to_type to "{safe_text}"
+        repeat with i from 1 to count characters of the text_to_type
+            keystroke (character i of the text_to_type)
+            delay 0.01
+        end repeat
+        delay 0.5
+        keystroke return
+    end tell
+    '''
+    try:
+        rpa.run_applescript(script)
+        log_to_file("Keystrokes sent.")
+    except Exception as e:
+        log_to_file(f"Typing failed: {e}")
 
 def main():
     rpa = AntigravityRPA()
     list_file = "/Users/moritak129/DailyAntigravity/やりたいリスト.md"
 
-    log_to_file("--- MISSION START ---")
+    log_to_file("--- MISSION START (Direct Typing Mode) ---")
 
     # 1. Read next task
     task_name = get_next_task(list_file)
@@ -73,13 +85,14 @@ def main():
     # Use a more specific title if possible
     if rpa.activate_by_window_title("Antigravity"):
         log_to_file("Focused Antigravity window.")
-        time.sleep(1.0) # Longer wait for focus
+        time.sleep(1.0)
 
         # 3. Click Chat Area
         if rpa.click_window_area("Antigravity", ratio_x=0.9, ratio_y=0.9):
-            log_to_file("Clicked chat area.")
-            time.sleep(1.5)
-            # 4. Paste and Send
+            log_to_file("Clicked chat area. Starting typing...")
+            time.sleep(1.0)
+
+            # 4. Type and Send
             send_complex_text(rpa, target_text)
             log_to_file("--- MISSION COMPLETE ---")
         else:
