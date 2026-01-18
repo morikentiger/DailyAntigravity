@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Slippery Race | Daily Antigravity Day 7</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="game-container">
+        <header class="game-header">
+            <div class="stat-box">
+                <span class="label">LAP</span>
+                <span id="lap-counter">1 / 3</span>
+            </div>
+            <div class="stat-box">
+                <span class="label">TIME</span>
+                <span id="current-time">00:00.00</span>
+            </div>
+            <div class="stat-box">
+                <span class="label">BEST LAP</span>
+                <span id="best-lap">-:--.--</span>
+            </div>
+        </header>
+
+        <main id="game-area" class="game-area">
+            <canvas id="game-canvas"></canvas>
+
+            <div id="controls-hint" class="hint-overlay">
+                <p>WASD or ARROW KEYS to MOVE</p>
+                <p>SHIFT to DRIFT (Coming soon?)</p>
+            </div>
+        </main>
+
+        <!-- Overlays -->
+        <div id="start-screen" class="overlay">
+            <div class="overlay-content">
+                <h1>🏎️ Slippery Race</h1>
+                <p>氷の上のタイムアタック！</p>
+                <div class="instructions">
+                    <p>慣性が強烈に働きます。早めのブレーキングとステアリングが鍵！</p>
+                    <p>全3ラップを最速で駆け抜けろ！</p>
+                </div>
+                <button id="startBtn" class="btn-primary">START RACE</button>
+            </div>
+        </div>
+
+        <div id="result-screen" class="overlay hidden">
+            <div class="overlay-content">
+                <h1>🏁 RACE FINISHED!</h1>
+                <div class="final-stats">
+                    <div class="stat-row">
+                        <span>TOTAL TIME:</span>
+                        <span id="final-total">00:00.00</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>BEST LAP:</span>
+                        <span id="final-best">00:00.00</span>
+                    </div>
+                    <div class="stat-badge" id="rank-badge">RANK: S</div>
+                </div>
+                <button id="retryBtn" class="btn-primary">RETRY</button>
+            </div>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+
+</html>

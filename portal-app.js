@@ -61,6 +61,15 @@ const days = [
         appPath: 'Day6__20260118/1_PokeyBlowaway/game.html',
         activities: 1,
         theme: '#f4d03f'
+    },
+    {
+        id: 'Day 7',
+        title: 'Slippery Race',
+        date: '2026.01.19',
+        path: 'Day7__20260119/index.html',
+        appPath: 'Day7__20260119/1_SlipperyRace/game.html',
+        activities: 1,
+        theme: '#bae6fd'
     }
 ];
 
