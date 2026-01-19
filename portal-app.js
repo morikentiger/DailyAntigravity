@@ -88,6 +88,15 @@ const days = [
         appPath: 'Day9__20260120/1_NearPin/index.html',
         activities: 1,
         theme: '#102a43'
+    },
+    {
+        id: 'Day 10',
+        title: 'Platformer Engine Base',
+        date: '2026.01.21',
+        path: 'Day10__20260121/index.html',
+        appPath: 'Day10__20260121/1_PlatformerBase/index.html',
+        activities: 1,
+        theme: '#e4000f'
     }
 ];
 
