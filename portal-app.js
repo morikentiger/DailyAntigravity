@@ -97,6 +97,15 @@ const days = [
         appPath: 'Day10__20260121/1_PlatformerBase/index.html',
         activities: 1,
         theme: '#e4000f'
+    },
+    {
+        id: 'Day 11',
+        title: 'Terraforming Giant',
+        date: '2026.01.22',
+        path: 'Day11__20260122/index.html',
+        appPath: 'Day11__20260122/1_TerrainEngine/index.html',
+        activities: 1,
+        theme: '#5baa5b'
     }
 ];
 
