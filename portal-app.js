@@ -70,6 +70,15 @@ const days = [
         appPath: 'Day7__20260119/1_SlipperyRace/game.html',
         activities: 1,
         theme: '#bae6fd'
+    },
+    {
+        id: 'Day 8',
+        title: 'Winding Path Race',
+        date: '2026.01.19',
+        path: 'Day8__20260119/index.html',
+        appPath: 'Day8__20260119/1_WindingRace/index.html',
+        activities: 1,
+        theme: '#00ffff'
     }
 ];
 

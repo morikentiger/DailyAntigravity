@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winding Path Race - Day 8</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="game-container">
+        <canvas id="gameCanvas"></canvas>
+        <div id="ui">
+            <div class="stat">TIME: <span id="timer">00:00.00</span></div>
+            <div class="stat">BEST: <span id="bestTime">--:--.--</span></div>
+            <div class="stat">SPEED: <span id="speedDisplay">0</span> km/h</div>
+            <div id="msg">STAY ON THE PATH!</div>
+        </div>
+        <div id="overlay" class="hidden">
+            <h1 id="overlay-title">GOAL!</h1>
+            <p id="final-time"></p>
+            <button id="restartBtn">RESTART</button>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+
+</html>
