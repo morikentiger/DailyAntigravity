@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Near-Pin Precision - Day 9</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="game-container">
+        <canvas id="gameCanvas"></canvas>
+        <div id="ui">
+            <div id="distance">DISTANCE: -- m</div>
+            <div id="power-bar-container">
+                <div id="power-bar"></div>
+                <div id="target-marker"></div>
+            </div>
+            <div id="instruction">HOLD [SPACE] TO CHARGE</div>
+        </div>
+        <div id="overlay" class="hidden">
+            <h1 id="result-title">CLOSE!</h1>
+            <p id="final-dist"></p>
+            <button id="retryBtn">TRY AGAIN</button>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+
+</html>

@@ -79,6 +79,15 @@ const days = [
         appPath: 'Day8__20260119/1_WindingRace/index.html',
         activities: 1,
         theme: '#00ffff'
+    },
+    {
+        id: 'Day 9',
+        title: 'Near-Pin Precision',
+        date: '2026.01.20',
+        path: 'Day9__20260120/index.html',
+        appPath: 'Day9__20260120/1_NearPin/index.html',
+        activities: 1,
+        theme: '#102a43'
     }
 ];
 
