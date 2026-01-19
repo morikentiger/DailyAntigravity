@@ -11,7 +11,7 @@
 - 一言：地面をポコポコ上げるだけで癒やされる。
 
 ## ARTIFACTS
-- 動画：media/gameplay.mp4
+- 動画：media/gameplay.webp
 - スクリーンショット：media/screenshot.png
 - 備考：
 

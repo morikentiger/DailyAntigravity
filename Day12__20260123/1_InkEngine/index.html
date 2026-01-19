@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ink Engine - Day 12</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="game-container">
+        <canvas id="gameCanvas"></canvas>
+        <div id="ui">
+            <div class="percentage-bars">
+                <div class="team alpha">ALPHA: <span id="alphaPct">0.0</span>%</div>
+                <div class="team beta">BETA: <span id="betaPct">0.0</span>%</div>
+            </div>
+            <div class="controls-hint">WASH: [W][A][S][D] / PAINT: [CLICK & HOLD] / SWITCH TEAM: [SPACE]</div>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+
+</html>

@@ -11,7 +11,7 @@
 - 一言：慣性制御の調整が楽しい。
 
 ## ARTIFACTS
-- 動画：media/gameplay.mp4
+- 動画：media/gameplay.webp
 - スクリーンショット：media/screenshot.png
 - 備考：
 

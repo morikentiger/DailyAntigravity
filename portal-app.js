@@ -106,6 +106,15 @@ const days = [
         appPath: 'Day11__20260122/1_TerrainEngine/index.html',
         activities: 1,
         theme: '#5baa5b'
+    },
+    {
+        id: 'Day 12',
+        title: 'Ink Painting Engine',
+        date: '2026.01.23',
+        path: 'Day12__20260123/index.html',
+        appPath: 'Day12__20260123/1_InkEngine/index.html',
+        activities: 1,
+        theme: '#ff6000'
     }
 ];
 
