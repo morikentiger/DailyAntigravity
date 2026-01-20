@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drift Physics - Day 15</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="game-container">
+        <canvas id="trailCanvas"></canvas>
+        <canvas id="gameCanvas"></canvas>
+        <div id="ui">
+            <div id="speedometer">SPEED: <span id="speed-val">0</span> km/h</div>
+            <div id="boost-indicator">BOOST: <div id="boost-bar">
+                    <div id="boost-fill"></div>
+                </div>
+            </div>
+            <div id="instructions">WASD: DRIVE / SHIFT: DRIFT / [R] TO CLEAR TRAILS</div>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+
+</html>
