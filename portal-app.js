@@ -115,6 +115,15 @@ const days = [
         appPath: 'Day12__20260123/1_InkEngine/index.html',
         activities: 1,
         theme: '#ff6000'
+    },
+    {
+        id: 'Day 13',
+        title: 'Smash Physics Engine',
+        date: '2026.01.24',
+        path: 'Day13__20260124/index.html',
+        appPath: 'Day13__20260124/1_SmashPhysics/index.html',
+        activities: 1,
+        theme: '#ef4444'
     }
 ];
 
