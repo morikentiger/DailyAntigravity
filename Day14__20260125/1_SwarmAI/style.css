@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;900&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #2d3a1a;
+    /* Forest Dark Green */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Outfit', sans-serif;
+    overflow: hidden;
+}
+
+#game-container {
+    position: relative;
+    width: 800px;
+    height: 600px;
+    background: radial-gradient(circle, #4a5d23 0%, #2d3a1a 100%);
+    border: 8px solid #1e2611;
+    border-radius: 15px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+canvas {
+    display: block;
+}
+
+#ui {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    pointer-events: none;
+    color: #fff;
+    text-shadow: 2px 2px rgba(0, 0, 0, 0.5);
+}
+
+#squad-info {
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 5px;
+}
+
+#instructions {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}

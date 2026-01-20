@@ -124,6 +124,15 @@ const days = [
         appPath: 'Day13__20260124/1_SmashPhysics/index.html',
         activities: 1,
         theme: '#ef4444'
+    },
+    {
+        id: 'Day 14',
+        title: 'Swarm AI Engine',
+        date: '2026.01.25',
+        path: 'Day14__20260125/index.html',
+        appPath: 'Day14__20260125/1_SwarmAI/index.html',
+        activities: 1,
+        theme: '#4a5d23'
     }
 ];
 
